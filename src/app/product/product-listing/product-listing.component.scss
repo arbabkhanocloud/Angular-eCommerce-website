@@ -1,0 +1,14 @@
+.product-listing {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
