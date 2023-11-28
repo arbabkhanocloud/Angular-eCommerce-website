@@ -1,12 +1,14 @@
-<app-search (searchChange)="onSearchChange($event)"></app-search>
-<div class="product-listing">
-  <ng-container *ngIf="filteredProducts.length > 0; else noProducts">
-    <app-product
-      *ngFor="let product of filteredProducts"
-      [product]="product"
-    ></app-product>
-  </ng-container>
-  <ng-template #noProducts>
-    <p>No products found.</p>
-  </ng-template>
+<div class="product-list-container">
+  <app-search (searchChange)="onSearchChange($event)"></app-search>
+  <div class="product-listing">
+    <ng-container *ngIf="filteredProducts.length > 0; else noProducts">
+      <app-product
+        *ngFor="let product of filteredProducts"
+        [product]="product"
+      ></app-product>
+    </ng-container>
+    <ng-template #noProducts>
+      <p>No products found.</p>
+    </ng-template>
+  </div>
 </div>

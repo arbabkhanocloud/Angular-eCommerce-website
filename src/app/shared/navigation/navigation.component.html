@@ -1,0 +1,46 @@
+<div class="nav-bar">
+  <div
+    class="logo"
+    (click)="navigateToHome()"
+    (keyup.enter)="navigateToHome()"
+    tabindex="0"
+  >
+    <span class="logo-text"> SmartShop </span>
+    <img src="assets/icons/shop.svg" alt="shop logo" height="48" width="34" />
+  </div>
+
+  <div class="right-container">
+    <div
+      class="cart-icon"
+      (click)="navigateToCart()"
+      (keyup.enter)="navigateToHome()"
+      tabindex="0"
+    >
+      <mat-icon>shopping_cart</mat-icon>
+      <span class="cart-item-count">{{ cartItemCount }}</span>
+    </div>
+    <div
+      class="user-status"
+      (click)="userStatusUpdate()"
+      (keyup.enter)="navigateToHome()"
+      tabindex="0"
+    >
+      <span *ngIf="isLogin; else logoutText">Login</span>
+      <ng-template #logoutText>
+        <span class="user-status">Logout</span>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<div
+  class="bottom-nav-bar"
+  (click)="navigateToHome()"
+  (keyup.enter)="navigateToHome()"
+  tabindex="0"
+>
+  <div class="categories">
+    <mat-icon> border_all</mat-icon>
+    Categories
+  </div>
+</div>
