@@ -17,7 +17,7 @@ describe('ProductComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should create', () => {
+  it('should create product component instance', () => {
     expect(component).toBeTruthy();
   });
 
