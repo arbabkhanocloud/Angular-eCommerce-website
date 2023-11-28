@@ -1,6 +1,7 @@
+<app-search (searchChange)="onSearchChange($event)"></app-search>
 <div class="product-listing">
   <app-product
-    *ngFor="let product of products"
+    *ngFor="let product of filteredProducts"
     [product]="product"
   ></app-product>
 </div>
