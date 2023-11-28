@@ -6,10 +6,17 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material/material.module';
 import { ProductComponent } from './product/product/product.component';
 import { ProductListingComponent } from './product/product-listing/product-listing.component';
+import { FormsModule } from '@angular/forms';
+import { SearchComponent } from './product/search/search.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductComponent, ProductListingComponent],
-  imports: [BrowserModule, AppRoutingModule, MaterialModule],
+  declarations: [
+    AppComponent,
+    ProductComponent,
+    ProductListingComponent,
+    SearchComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, MaterialModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent],
 })

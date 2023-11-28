@@ -1,18 +1,21 @@
 import { ProductListingComponent } from './product-listing.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductComponent } from '../product/product.component';
-import { MaterialModule } from 'src/app/material/material/material.module';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { AppModule } from 'src/app/app.module';
+import { SearchComponent } from '../search/search.component';
+import { By } from '@angular/platform-browser';
 
 describe('product listing component testing', () => {
   let component: ProductListingComponent;
   let fixture: ComponentFixture<ProductListingComponent>;
 
-  beforeEach(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductListingComponent, ProductComponent],
-      imports: [MaterialModule],
-    });
+      declarations: [ProductListingComponent, SearchComponent],
+      imports: [AppModule],
+    }).compileComponents();
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(ProductListingComponent);
     component = fixture.componentInstance;
   });
@@ -58,5 +61,14 @@ describe('product listing component testing', () => {
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
     expect(productElement.length).toEqual(2);
+  });
+
+  it('should update filteredProducts when search input changes', () => {
+    const searchComponentInstance = fixture.debugElement.query(
+      By.directive(SearchComponent),
+    );
+
+    searchComponentInstance.componentInstance.searchChange.emit('mouse');
+    expect(component.filteredProducts.length).toEqual(17);
   });
 });
