@@ -7,7 +7,10 @@ import { MaterialModule } from './material/material/material.module';
 import { ProductComponent } from './product/product/product.component';
 import { ProductListingComponent } from './product/product-listing/product-listing.component';
 import { FormsModule } from '@angular/forms';
-import { SearchComponent } from './product/search/search.component';
+import { SearchComponent } from './shared/components/search/search.component';
+import { NavigationComponent } from './shared/navigation/navigation.component';
+import { LoginComponent } from './login/login.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,9 @@ import { SearchComponent } from './product/search/search.component';
     ProductComponent,
     ProductListingComponent,
     SearchComponent,
+    NavigationComponent,
+    LoginComponent,
+    CartComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, MaterialModule, FormsModule],
   providers: [],

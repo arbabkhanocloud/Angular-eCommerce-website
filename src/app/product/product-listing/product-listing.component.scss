@@ -1,14 +1,19 @@
-.product-listing {
-  margin-top: 10px;
+.product-list-container {
+  margin-top: 45px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
+  flex-direction: column;
+  gap: 15px;
+  .product-listing {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

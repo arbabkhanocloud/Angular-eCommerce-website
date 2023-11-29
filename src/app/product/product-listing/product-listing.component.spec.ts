@@ -1,18 +1,26 @@
 import { ProductListingComponent } from './product-listing.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
-import { SearchComponent } from '../search/search.component';
-import { By } from '@angular/platform-browser';
+import { SearchService } from 'src/app/services/search.service';
+import { BehaviorSubject } from 'rxjs';
 
 describe('product listing component testing', () => {
   let component: ProductListingComponent;
   let fixture: ComponentFixture<ProductListingComponent>;
+  let searchService: jasmine.SpyObj<SearchService>;
 
   beforeEach(waitForAsync(() => {
+    const searchServiceSpy = jasmine.createSpyObj('SearchService', [
+      'searchText$',
+    ]);
     TestBed.configureTestingModule({
-      declarations: [ProductListingComponent, SearchComponent],
+      declarations: [ProductListingComponent],
       imports: [AppModule],
+      providers: [{ provide: SearchService, useValue: searchServiceSpy }],
     }).compileComponents();
+    searchService = TestBed.inject(
+      SearchService,
+    ) as jasmine.SpyObj<SearchService>;
   }));
 
   beforeEach(() => {
@@ -29,7 +37,13 @@ describe('product listing component testing', () => {
   });
 
   it('it should render app-product component for each product in the list', () => {
+    expect(component.products.length).toEqual(21);
+    const searchTextSubject = new BehaviorSubject<string>('');
+    searchService.searchText$ = searchTextSubject.asObservable();
+
+    component.ngOnInit();
     fixture.detectChanges();
+
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
     expect(productElement.length).toEqual(21);
@@ -56,19 +70,45 @@ describe('product listing component testing', () => {
     ];
 
     component.products = newProducts;
+    const searchTextSubject = new BehaviorSubject<string>('');
+    searchService.searchText$ = searchTextSubject.asObservable();
+
+    component.ngOnInit();
     fixture.detectChanges();
+
     expect(component.products).toEqual(newProducts);
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
     expect(productElement.length).toEqual(2);
+
+    const newSearchText = 'Test Product 2';
+    searchTextSubject.next(newSearchText);
+
+    fixture.detectChanges();
+
+    const productElemen2 =
+      fixture.nativeElement.querySelectorAll('app-product');
+    expect(productElemen2.length).toEqual(1);
   });
 
-  it('should update filteredProducts when search input changes', () => {
-    const searchComponentInstance = fixture.debugElement.query(
-      By.directive(SearchComponent),
-    );
+  it('should update filtered products when searchText$ emits a new value', () => {
+    spyOn(component, 'onSearchChange').and.callThrough();
 
-    searchComponentInstance.componentInstance.searchChange.emit('mouse');
+    const searchTextSubject = new BehaviorSubject<string>('');
+    searchService.searchText$ = searchTextSubject.asObservable();
+
+    component.ngOnInit();
+
+    const newSearchText = 'mouse';
+    searchTextSubject.next(newSearchText);
+
+    expect(component.onSearchChange).toHaveBeenCalledWith(newSearchText);
     expect(component.filteredProducts.length).toEqual(17);
+
+    fixture.detectChanges();
+
+    const productElement =
+      fixture.nativeElement.querySelectorAll('app-product');
+    expect(productElement.length).toEqual(17);
   });
 });

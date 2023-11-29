@@ -25,13 +25,6 @@ describe('SearchComponent', () => {
     expect(component.searchText).toEqual('');
   });
 
-  it('should emit searchChange event on search text change', () => {
-    spyOn(component.searchChange, 'emit');
-    component.searchText = 'speaker';
-    component.filter();
-    expect(component.searchChange.emit).toHaveBeenCalledWith('speaker');
-  });
-
   it('should update the searchText string immediately when input is typed', () => {
     const inputElement = fixture.nativeElement.querySelector('input');
     inputElement.value = 'test';
