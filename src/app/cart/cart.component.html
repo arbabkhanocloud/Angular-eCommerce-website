@@ -1,1 +1,23 @@
-<p>cart works!</p>
+<div class="cart">
+  <ng-container *ngIf="cartItems.length > 0; else noItems">
+    <div class="cart-items">
+      <app-cart-item
+        *ngFor="let item of cartItems"
+        [cartItem]="item"
+      ></app-cart-item>
+    </div>
+    <div class="checkout">
+      <div class="total">Total Items: {{ getTotalItems() }}</div>
+      <div class="total-price">
+        Total Price: {{ getTotalPrice() | currency }}
+      </div>
+      <button (click)="checkout()">Proceed to Checkout</button>
+    </div>
+  </ng-container>
+  <ng-template #noItems>
+    <div class="empty-cart">
+      <p>No item added to the cart.</p>
+      <button (click)="goBack()">Back to Home Page</button>
+    </div>
+  </ng-template>
+</div>

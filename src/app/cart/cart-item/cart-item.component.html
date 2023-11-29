@@ -1,0 +1,26 @@
+<div class="cart-item-container">
+  <img
+    mat-card-image
+    src="{{ cartItem.item.src }}"
+    alt="{{ cartItem.item.name }}"
+    width="50"
+    height="50"
+  />
+  <div class="item-details">
+    <div>
+      <span class="price">
+        {{ cartItem.quantity }} X {{ cartItem.item.price }}
+      </span>
+      <span class="item-price"> = ${{ getItemPrice() }} </span>
+    </div>
+    <div>
+      <mat-icon (click)="decrementItem(cartItem.item)"
+        >remove_circle_outline</mat-icon
+      >
+      <mat-icon (click)="incrementItem(cartItem.item)"
+        >add_circle_outline</mat-icon
+      >
+      <mat-icon (click)="deleteItem(cartItem.item)">highlight_off</mat-icon>
+    </div>
+  </div>
+</div>

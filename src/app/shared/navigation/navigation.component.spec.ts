@@ -30,7 +30,7 @@ describe('NavigationComponent', () => {
   it('should navigate to home when Categories is clicked', () => {
     const navigateSpy = spyOn(component['router'], 'navigate');
     const catergories =
-      fixture.debugElement.nativeElement.querySelector('.bottom-nav-bar');
+      fixture.debugElement.nativeElement.querySelector('.categories');
     catergories.click();
     expect(navigateSpy).toHaveBeenCalledWith(['']);
   });

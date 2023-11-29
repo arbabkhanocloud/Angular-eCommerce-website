@@ -10,7 +10,9 @@ import { FormsModule } from '@angular/forms';
 import { SearchComponent } from './shared/components/search/search.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import { LoginComponent } from './login/login.component';
-import { CartComponent } from './cart/cart.component';
+import { CartModule } from './cart/cart.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from '../app/reducer/index';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,21 @@ import { CartComponent } from './cart/cart.component';
     SearchComponent,
     NavigationComponent,
     LoginComponent,
-    CartComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, MaterialModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    MaterialModule,
+    FormsModule,
+    CartModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

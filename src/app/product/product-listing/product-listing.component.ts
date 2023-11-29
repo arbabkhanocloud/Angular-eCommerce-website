@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { products } from 'data';
 import { IProduct } from '../product.model';
-import { SearchService } from 'src/app/services/search.service';
+import { SearchService } from 'src/app/services/search/search.service';
 import { Subscription } from 'rxjs';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 @Component({
   selector: 'app-product-listing',
@@ -13,7 +14,10 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   products: IProduct[] = products;
   filteredProducts: IProduct[] = [];
   private searchSubscription!: Subscription;
-  constructor(private searchService: SearchService) {}
+  constructor(
+    private searchService: SearchService,
+    private cartService: CartService,
+  ) {}
 
   ngOnInit(): void {
     this.filteredProducts = this.products;
@@ -41,5 +45,9 @@ export class ProductListingComponent implements OnInit, OnDestroy {
     } else {
       this.filteredProducts = this.products;
     }
+  }
+
+  addItemToCart(product: IProduct) {
+    this.cartService.addItemToCart(product);
   }
 }
