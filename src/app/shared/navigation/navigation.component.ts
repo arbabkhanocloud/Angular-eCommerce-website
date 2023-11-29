@@ -12,18 +12,7 @@ export class NavigationComponent {
 
   constructor(private readonly router: Router) {}
 
-  navigateToHome() {
-    console.log('navigateToHome');
-    this.router.navigate(['']);
-  }
-
-  navigateToCart() {
-    console.log('cart');
-    this.router.navigate(['/cart']);
-  }
-
-  userStatusUpdate() {
-    console.log('user-status');
-    this.router.navigate(['/login']);
+  navigateTo(route: string) {
+    this.router.navigate([`${route}`]);
   }
 }

@@ -1,16 +1,13 @@
 import { ProductListingComponent } from './product-listing.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
-import { SearchComponent } from '../search/search.component';
-import { By } from '@angular/platform-browser';
-
 describe('product listing component testing', () => {
   let component: ProductListingComponent;
   let fixture: ComponentFixture<ProductListingComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductListingComponent, SearchComponent],
+      declarations: [ProductListingComponent],
       imports: [AppModule],
     }).compileComponents();
   }));
@@ -63,12 +60,5 @@ describe('product listing component testing', () => {
     expect(productElement.length).toEqual(2);
   });
 
-  it('should update filteredProducts when search input changes', () => {
-    const searchComponentInstance = fixture.debugElement.query(
-      By.directive(SearchComponent),
-    );
-
-    searchComponentInstance.componentInstance.searchChange.emit('mouse');
-    expect(component.filteredProducts.length).toEqual(17);
-  });
+  // it('should update filterproducts when searchtext$ emits new value',()=>{})
 });

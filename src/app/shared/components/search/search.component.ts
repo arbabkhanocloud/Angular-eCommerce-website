@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-search',
@@ -8,10 +9,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class SearchComponent {
   searchText = '';
   private searchTimeout: any;
-  @Output() searchChange = new EventEmitter<string>();
+
+  constructor(private readonly searchServce: SearchService) {}
 
   filter() {
-    this.searchChange.emit(this.searchText);
+    this.searchServce.updateSearchText(this.searchText);
   }
 
   onSearchTextChange() {

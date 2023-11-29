@@ -1,8 +1,8 @@
 <div class="nav-bar">
   <div
     class="logo"
-    (click)="navigateToHome()"
-    (keyup.enter)="navigateToHome()"
+    (click)="navigateTo('')"
+    (keyup.enter)="navigateTo('')"
     tabindex="0"
   >
     <span class="logo-text"> SmartShop </span>
@@ -12,8 +12,8 @@
   <div class="right-container">
     <div
       class="cart-icon"
-      (click)="navigateToCart()"
-      (keyup.enter)="navigateToHome()"
+      (click)="navigateTo('cart')"
+      (keyup.enter)="navigateTo('cart')"
       tabindex="0"
     >
       <mat-icon>shopping_cart</mat-icon>
@@ -21,8 +21,8 @@
     </div>
     <div
       class="user-status"
-      (click)="userStatusUpdate()"
-      (keyup.enter)="navigateToHome()"
+      (click)="navigateTo('login')"
+      (keyup.enter)="navigateTo('login')"
       tabindex="0"
     >
       <span *ngIf="isLogin; else logoutText">Login</span>
@@ -35,12 +35,13 @@
 
 <div
   class="bottom-nav-bar"
-  (click)="navigateToHome()"
-  (keyup.enter)="navigateToHome()"
+  (click)="navigateTo('')"
+  (keyup.enter)="navigateTo('')"
   tabindex="0"
 >
   <div class="categories">
     <mat-icon> border_all</mat-icon>
     Categories
   </div>
+  <app-search style="width: 70%"></app-search>
 </div>
