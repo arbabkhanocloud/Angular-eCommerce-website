@@ -14,6 +14,7 @@ import { CartModule } from './cart/cart.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from '../app/reducer/index';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
     NavigationComponent,
     LoginComponent,
     ProductDetailsComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,

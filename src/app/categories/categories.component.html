@@ -1,0 +1,26 @@
+<h1>Availbe Categories</h1>
+<div class="categories">
+  <mat-card class="category-card" *ngFor="let category of categories">
+    <mat-card-header>
+      <mat-card-title>{{ category.type }}</mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="{{ category.src }}"
+      width="100%"
+      height="60%"
+      alt="{{ category.type }}"
+    />
+    <br />
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        class="add-btn"
+        (click)="shopNow(category.type)"
+      >
+        Shop Now
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

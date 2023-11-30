@@ -4,12 +4,14 @@ import { ProductListingComponent } from './product/product-listing/product-listi
 import { CartComponent } from './cart/cart.component';
 import { LoginComponent } from './login/login.component';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 const routes: Routes = [
   {
     path: '',
     component: ProductListingComponent,
   },
+  { path: 'category', component: CategoriesComponent },
   { path: 'products/:productId', component: ProductDetailsComponent },
   {
     path: 'cart',

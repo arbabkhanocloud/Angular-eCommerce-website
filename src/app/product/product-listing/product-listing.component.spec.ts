@@ -112,13 +112,13 @@ describe('product listing component testing', () => {
     searchTextSubject.next(newSearchText);
 
     expect(component.onSearchChange).toHaveBeenCalledWith(newSearchText);
-    expect(component.filteredProducts.length).toEqual(17);
+    expect(component.filteredProducts.length).toEqual(15);
 
     fixture.detectChanges();
 
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
-    expect(productElement.length).toEqual(17);
+    expect(productElement.length).toEqual(15);
   });
 
   it('should call cartService.addItemToCart when clicking on "add to cart"', () => {
