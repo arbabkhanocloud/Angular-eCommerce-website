@@ -52,9 +52,7 @@ describe('CartComponent', () => {
     expect(emptyCartMessage.nativeElement.textContent).toContain(
       'No item added to the cart.',
     );
-    expect(goBackButton.nativeElement.textContent).toContain(
-      'Back to Home Page',
-    );
+    expect(goBackButton.nativeElement.textContent).toContain('Go Back');
   });
 
   it('should change route on clicking on go back button when cart is empty', () => {
