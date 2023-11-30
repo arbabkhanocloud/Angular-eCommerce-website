@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { selectCartItems } from './cart.selectors';
 import { ICartItem } from './cart.model';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
@@ -15,6 +16,7 @@ export class CartComponent implements OnInit {
   constructor(
     private readonly store: Store,
     private readonly router: Router,
+    private readonly location: Location,
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,6 @@ export class CartComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   checkout() {}
   goBack() {
-    this.router.navigate(['']);
+    this.location.back();
   }
 }

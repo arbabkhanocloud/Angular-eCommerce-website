@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
+import { Location } from '@angular/common';
 
 import { CartComponent } from './cart.component';
 
@@ -11,13 +12,18 @@ describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
   let mockStore: jasmine.SpyObj<Store>;
+  let mockLocation: jasmine.SpyObj<Location>;
 
   beforeEach(() => {
     mockStore = jasmine.createSpyObj('Store', ['select']);
+    mockLocation = jasmine.createSpyObj('Location', ['back']);
     TestBed.configureTestingModule({
       declarations: [CartComponent],
       imports: [AppModule, RouterTestingModule, StoreModule.forRoot({})],
-      providers: [{ provide: Store, useValue: mockStore }],
+      providers: [
+        { provide: Store, useValue: mockStore },
+        { provide: Location, useValue: mockLocation },
+      ],
     });
 
     fixture = TestBed.createComponent(CartComponent);
@@ -52,8 +58,6 @@ describe('CartComponent', () => {
   });
 
   it('should change route on clicking on go back button when cart is empty', () => {
-    const routerSpy = spyOn(component['router'], 'navigate');
-
     mockStore.select.and.returnValue(of([]));
     fixture.detectChanges();
 
@@ -62,7 +66,7 @@ describe('CartComponent', () => {
     );
     goBackButton.nativeElement.click();
 
-    expect(routerSpy).toHaveBeenCalledWith(['']);
+    expect(mockLocation.back).toHaveBeenCalled();
   });
 
   it('shoud show cart item and total quantity and total price when cart is not empty', () => {

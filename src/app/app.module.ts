@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { CartModule } from './cart/cart.module';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from '../app/reducer/index';
+import { ProductDetailsComponent } from './product/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { reducers, metaReducers } from '../app/reducer/index';
     SearchComponent,
     NavigationComponent,
     LoginComponent,
+    ProductDetailsComponent,
   ],
   imports: [
     BrowserModule,

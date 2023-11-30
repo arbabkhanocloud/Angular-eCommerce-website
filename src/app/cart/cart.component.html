@@ -12,12 +12,13 @@
         Total Price: {{ getTotalPrice() | currency }}
       </div>
       <button (click)="checkout()">Proceed to Checkout</button>
+      <button (click)="goBack()">Go Back</button>
     </div>
   </ng-container>
   <ng-template #noItems>
     <div class="empty-cart">
       <p>No item added to the cart.</p>
-      <button (click)="goBack()">Back to Home Page</button>
+      <button (click)="goBack()">Go Back</button>
     </div>
   </ng-template>
 </div>

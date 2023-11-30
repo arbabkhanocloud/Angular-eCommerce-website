@@ -14,7 +14,12 @@
   <mat-card-content>
     <span>{{ product.price | currency }}</span>
     <br />
-    <a href="">view details</a>
+    <a
+      [title]="product.name + ' details'"
+      [routerLink]="['/products', product.id]"
+    >
+      view details
+    </a>
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button class="add-btn" (click)="onAddItem(product)">
