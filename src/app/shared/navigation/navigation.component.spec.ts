@@ -50,4 +50,23 @@ describe('NavigationComponent', () => {
     userStatus.click();
     expect(navigateSpy).toHaveBeenCalledWith(['login']);
   });
+
+  it('should show app-search when the route is not /cart', () => {
+    component.showSearchBar = true;
+    fixture.detectChanges();
+
+    const appSearch =
+      fixture.debugElement.nativeElement.querySelector('app-search');
+    expect(appSearch).toBeTruthy();
+  });
+
+  it('should hide app-search when the route is /cart', () => {
+    component.showSearchBar = false;
+    fixture.detectChanges();
+
+    const appSearch =
+      fixture.debugElement.nativeElement.querySelector('app-search');
+
+    expect(appSearch).toBeFalsy();
+  });
 });

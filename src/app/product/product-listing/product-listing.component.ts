@@ -20,6 +20,7 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.searchService.updateSearchText('');
     this.filteredProducts = this.products;
     this.searchSubscription = this.searchService.searchText$.subscribe(
       (searchText) => {

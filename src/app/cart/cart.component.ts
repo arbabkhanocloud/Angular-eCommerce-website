@@ -22,7 +22,6 @@ export class CartComponent implements OnInit {
     this.store.select(selectCartItems).subscribe((items: ICartItem[]) => {
       this.cartItems = items;
     });
-    console.log('object');
   }
 
   getTotalPrice(): number {

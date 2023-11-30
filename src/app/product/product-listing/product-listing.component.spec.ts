@@ -14,6 +14,7 @@ describe('product listing component testing', () => {
   beforeEach(waitForAsync(() => {
     const searchServiceSpy = jasmine.createSpyObj('SearchService', [
       'searchText$',
+      'updateSearchText',
     ]);
     const cartServiceSpy = jasmine.createSpyObj('CartService', [
       'addItemToCart',
