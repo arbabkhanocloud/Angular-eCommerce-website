@@ -9,10 +9,8 @@ import { CategoriesComponent } from './categories/categories.component';
 const routes: Routes = [
   {
     path: '',
-    component: ProductListingComponent,
+    component: CategoriesComponent,
   },
-  { path: 'category', component: CategoriesComponent },
-  { path: 'products/:productId', component: ProductDetailsComponent },
   {
     path: 'cart',
     component: CartComponent,
@@ -20,6 +18,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  { path: ':categoryType', component: ProductListingComponent },
+  {
+    path: ':categoryType/:productId',
+    component: ProductDetailsComponent,
   },
 ];
 

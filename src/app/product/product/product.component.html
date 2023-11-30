@@ -14,10 +14,7 @@
   <mat-card-content>
     <span>{{ product.price | currency }}</span>
     <br />
-    <a
-      [title]="product.name + ' details'"
-      [routerLink]="['/products', product.id]"
-    >
+    <a [title]="product.name + ' details'" [routerLink]="[product.id]">
       view details
     </a>
   </mat-card-content>

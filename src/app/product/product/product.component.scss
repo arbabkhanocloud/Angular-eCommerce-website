@@ -2,6 +2,7 @@
   text-align: center;
   width: 250px;
   height: 350px;
+  cursor: default;
 
   .mat-mdc-card-header {
     background-color: rgb(207, 207, 251);
@@ -21,9 +22,10 @@
     align-items: center;
     gap: 5px;
     border-radius: 5px;
+    cursor: pointer;
   }
 
-  .shop-now:hover {
+  .add-btn:hover {
     color: blue;
   }
 }
