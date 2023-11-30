@@ -11,9 +11,9 @@
     overflow: scroll;
   }
   .checkout {
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
   }
 
   .total,
@@ -23,6 +23,7 @@
   }
 
   button {
+    margin-top: 15px;
     padding: 15px;
     color: white;
     background-color: rgb(6, 6, 8);
