@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductComponent } from './product.component';
 import { MaterialModule } from 'src/app/material/material/material.module';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ProductComponent', () => {
   let component: ProductComponent;
@@ -10,7 +11,7 @@ describe('ProductComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ProductComponent],
-      imports: [MaterialModule],
+      imports: [MaterialModule, RouterTestingModule],
     });
 
     fixture = TestBed.createComponent(ProductComponent);

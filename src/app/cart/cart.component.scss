@@ -8,12 +8,24 @@
     display: flex;
     gap: 10px;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
   }
   .checkout {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
+
+    button {
+      margin-top: 15px;
+      padding: 15px;
+      color: black;
+      border-color: none;
+      font-size: 25px;
+      border-width: 0;
+      border-width: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   }
 
   .total-items,
@@ -25,8 +37,11 @@
   button {
     margin-top: 15px;
     padding: 15px;
-    color: white;
-    background-color: rgb(6, 6, 8);
+    color: black;
+    border-color: none;
+    border-width: 0;
+    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
   }
 
