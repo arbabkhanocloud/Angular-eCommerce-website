@@ -33,15 +33,15 @@
   </div>
 </div>
 
-<div
-  class="bottom-nav-bar"
-  (click)="navigateTo('')"
-  (keyup.enter)="navigateTo('')"
-  tabindex="0"
->
-  <div class="categories">
+<div class="bottom-nav-bar">
+  <div
+    class="categories"
+    (click)="navigateTo('')"
+    (keyup.enter)="navigateTo('')"
+    tabindex="0"
+  >
     <mat-icon> border_all</mat-icon>
     Categories
   </div>
-  <app-search style="width: 70%"></app-search>
+  <app-search *ngIf="showSearchBar" style="width: 70%"></app-search>
 </div>

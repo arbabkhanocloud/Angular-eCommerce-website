@@ -63,7 +63,7 @@ describe('ProductComponent', () => {
       description: 'asdfsdfsdf',
     };
 
-    spyOn(component, 'onAdd');
+    spyOn(component, 'onAddItem');
     component.product = product;
     fixture.detectChanges();
 
@@ -72,6 +72,27 @@ describe('ProductComponent', () => {
     ).nativeElement;
     addButton.click();
 
-    expect(component.onAdd).toHaveBeenCalledWith(product);
+    expect(component.onAddItem).toHaveBeenCalledWith(product);
+  });
+  it('should emit addItemEvent on clicking Add Item button', () => {
+    const product = {
+      id: 1,
+      name: 'Test Product',
+      category: 'Test Category',
+      src: 'test-image.jpg',
+      price: 19.99,
+      description: 'asdfsdfsdf',
+    };
+
+    spyOn(component.addItemEvent, 'emit');
+    component.product = product;
+    fixture.detectChanges();
+
+    const addButton = fixture.debugElement.query(
+      By.css('.add-btn'),
+    ).nativeElement;
+    addButton.click();
+
+    expect(component.addItemEvent.emit).toHaveBeenCalledWith(product);
   });
 });

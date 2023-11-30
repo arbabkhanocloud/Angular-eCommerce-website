@@ -1,32 +1,41 @@
 import { ProductListingComponent } from './product-listing.component';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
-import { SearchService } from 'src/app/services/search.service';
 import { BehaviorSubject } from 'rxjs';
+import { SearchService } from 'src/app/services/search/search.service';
+import { CartService } from 'src/app/services/cart/cart.service';
 
 describe('product listing component testing', () => {
   let component: ProductListingComponent;
   let fixture: ComponentFixture<ProductListingComponent>;
   let searchService: jasmine.SpyObj<SearchService>;
+  let cartService: jasmine.SpyObj<CartService>;
 
   beforeEach(waitForAsync(() => {
     const searchServiceSpy = jasmine.createSpyObj('SearchService', [
       'searchText$',
+      'updateSearchText',
+    ]);
+    const cartServiceSpy = jasmine.createSpyObj('CartService', [
+      'addItemToCart',
     ]);
     TestBed.configureTestingModule({
       declarations: [ProductListingComponent],
       imports: [AppModule],
-      providers: [{ provide: SearchService, useValue: searchServiceSpy }],
+      providers: [
+        { provide: SearchService, useValue: searchServiceSpy },
+        { provide: CartService, useValue: cartServiceSpy },
+      ],
     }).compileComponents();
     searchService = TestBed.inject(
       SearchService,
     ) as jasmine.SpyObj<SearchService>;
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductListingComponent);
-    component = fixture.componentInstance;
-  });
+    cartService = TestBed.inject(CartService) as jasmine.SpyObj<CartService>;
+  })),
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ProductListingComponent);
+      component = fixture.componentInstance;
+    });
 
   it('it should create product listing component', () => {
     expect(component).toBeTruthy();
@@ -110,5 +119,35 @@ describe('product listing component testing', () => {
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
     expect(productElement.length).toEqual(17);
+  });
+
+  it('should call cartService.addItemToCart when clicking on "add to cart"', () => {
+    const newProducts = [
+      {
+        id: 0,
+        name: 'Test Product',
+        category: 'Test Category',
+        src: 'test-image.jpg',
+        price: 19.99,
+        description: 'product 1 testing description',
+      },
+    ];
+
+    component.products = newProducts;
+    const searchTextSubject = new BehaviorSubject<string>('');
+    searchService.searchText$ = searchTextSubject.asObservable();
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    component.addItemToCart(component.products[0]);
+
+    expect(cartService.addItemToCart).toHaveBeenCalledWith({
+      id: 0,
+      name: 'Test Product',
+      category: 'Test Category',
+      src: 'test-image.jpg',
+      price: 19.99,
+      description: 'product 1 testing description',
+    });
   });
 });

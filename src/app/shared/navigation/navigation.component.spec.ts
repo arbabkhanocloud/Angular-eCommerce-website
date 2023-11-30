@@ -30,7 +30,7 @@ describe('NavigationComponent', () => {
   it('should navigate to home when Categories is clicked', () => {
     const navigateSpy = spyOn(component['router'], 'navigate');
     const catergories =
-      fixture.debugElement.nativeElement.querySelector('.bottom-nav-bar');
+      fixture.debugElement.nativeElement.querySelector('.categories');
     catergories.click();
     expect(navigateSpy).toHaveBeenCalledWith(['']);
   });
@@ -49,5 +49,24 @@ describe('NavigationComponent', () => {
       fixture.debugElement.nativeElement.querySelector('.user-status');
     userStatus.click();
     expect(navigateSpy).toHaveBeenCalledWith(['login']);
+  });
+
+  it('should show app-search when the route is not /cart', () => {
+    component.showSearchBar = true;
+    fixture.detectChanges();
+
+    const appSearch =
+      fixture.debugElement.nativeElement.querySelector('app-search');
+    expect(appSearch).toBeTruthy();
+  });
+
+  it('should hide app-search when the route is /cart', () => {
+    component.showSearchBar = false;
+    fixture.detectChanges();
+
+    const appSearch =
+      fixture.debugElement.nativeElement.querySelector('app-search');
+
+    expect(appSearch).toBeFalsy();
   });
 });

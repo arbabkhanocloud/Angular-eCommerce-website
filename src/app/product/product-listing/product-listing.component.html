@@ -4,10 +4,11 @@
       <app-product
         *ngFor="let product of filteredProducts"
         [product]="product"
+        (addItemEvent)="addItemToCart($event)"
       ></app-product>
     </ng-container>
     <ng-template #noProducts>
-      <p>No products found.</p>
+      <p>No product found.</p>
     </ng-template>
   </div>
 </div>

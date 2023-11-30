@@ -1,0 +1,20 @@
+.cart-item-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 5px;
+
+  .item-details {
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.item-price {
+  margin-left: 10px;
+}
+
+.mat-ligature-font {
+  font: 5px;
+}
