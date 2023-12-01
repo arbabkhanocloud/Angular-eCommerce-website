@@ -23,4 +23,8 @@ export class CartService {
   deleteItemFromCart(item: IProduct) {
     this.store.dispatch(CartActions.deleteItemFromCart({ item }));
   }
+
+  clearCart() {
+    this.store.dispatch(CartActions.clearCart());
+  }
 }

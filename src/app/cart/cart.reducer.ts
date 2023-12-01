@@ -68,6 +68,13 @@ export const cartReducer = createReducer(
     ...state,
     cartItems: state.cartItems.filter((ci) => ci.item.id !== item.id),
   })),
+  on(
+    CartActions.clearCart,
+    (state: ICartState): ICartState => ({
+      ...state,
+      cartItems: [],
+    }),
+  ),
 );
 
 export function reducer(state: ICartState | undefined, action: Action) {
