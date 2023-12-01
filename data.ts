@@ -1,4 +1,6 @@
-export const products = [
+import { IProduct } from 'src/app/product/product.model';
+
+export const products: IProduct[] = [
   {
     id: 1,
     src: 'https://shopivate.pk/wp-content/uploads/2023/08/1000236536.jpg',
