@@ -50,14 +50,14 @@ describe('product listing component testing', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have an 19  products list by default', () => {
+  it('should have an 18  products list by default', () => {
     const searchTextSubject = new BehaviorSubject<string>('');
     searchService.searchText$ = searchTextSubject.asObservable();
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.products.length).toEqual(19);
+    expect(component.products.length).toEqual(18);
   });
 
   it('it should render app-product component for each product in the list', () => {
@@ -67,7 +67,7 @@ describe('product listing component testing', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(component.products.length).toEqual(19);
+    expect(component.products.length).toEqual(18);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -75,7 +75,7 @@ describe('product listing component testing', () => {
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
 
-    expect(productElement.length).toEqual(19);
+    expect(productElement.length).toEqual(18);
   });
 
   it('it should update product listing when input update or change', () => {
@@ -87,7 +87,7 @@ describe('product listing component testing', () => {
 
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
-    expect(productElement.length).toEqual(19);
+    expect(productElement.length).toEqual(18);
 
     const newSearchText = 'mouse';
     searchTextSubject.next(newSearchText);
@@ -96,7 +96,7 @@ describe('product listing component testing', () => {
 
     const productElemen2 =
       fixture.nativeElement.querySelectorAll('app-product');
-    expect(productElemen2.length).toEqual(15);
+    expect(productElemen2.length).toEqual(14);
   });
 
   it('should update filtered products when searchText$ emits a new value', () => {
@@ -111,13 +111,13 @@ describe('product listing component testing', () => {
     searchTextSubject.next(newSearchText);
 
     expect(component.onSearchChange).toHaveBeenCalledWith(newSearchText);
-    expect(component.filteredProducts.length).toEqual(15);
+    expect(component.filteredProducts.length).toEqual(14);
 
     fixture.detectChanges();
 
     const productElement =
       fixture.nativeElement.querySelectorAll('app-product');
-    expect(productElement.length).toEqual(15);
+    expect(productElement.length).toEqual(14);
   });
 
   it('should call cartService.addItemToCart when clicking on "add to cart"', () => {
