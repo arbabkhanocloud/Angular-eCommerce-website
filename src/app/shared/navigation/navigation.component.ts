@@ -27,7 +27,7 @@ export class NavigationComponent implements OnInit {
       )
       .subscribe((event: NavigationEnd) => {
         const currentRoute = event.url;
-        if (currentRoute === '/cart') {
+        if (currentRoute === '/cart' || currentRoute === '/checkout') {
           this.showSearchBar = false;
         } else {
           this.showSearchBar = true;
