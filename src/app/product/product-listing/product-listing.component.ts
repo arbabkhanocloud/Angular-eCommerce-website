@@ -4,6 +4,7 @@ import { IProduct } from '../product.model';
 import { SearchService } from 'src/app/services/search/search.service';
 import { Subscription } from 'rxjs';
 import { CartService } from 'src/app/services/cart/cart.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-listing',
@@ -17,11 +18,17 @@ export class ProductListingComponent implements OnInit, OnDestroy {
   constructor(
     private searchService: SearchService,
     private cartService: CartService,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    this.searchService.updateSearchText('');
+    const routeParam = this.route.snapshot.paramMap;
+    const categoryType = String(routeParam.get('categoryType'));
+    this.products = products.filter(
+      (product) => product.category === categoryType,
+    );
     this.filteredProducts = this.products;
+    this.searchService.updateSearchText('');
     this.searchSubscription = this.searchService.searchText$.subscribe(
       (searchText) => {
         this.onSearchChange(searchText);

@@ -1,4 +1,6 @@
-export const products = [
+import { IProduct } from 'src/app/product/product.model';
+
+export const products: IProduct[] = [
   {
     id: 1,
     src: 'https://shopivate.pk/wp-content/uploads/2023/08/1000236536.jpg',
@@ -82,19 +84,19 @@ export const products = [
   },
   {
     id: 11,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg',
-    name: 'Mouse',
-    price: 30,
-    category: 'Electronics',
-    description: 'best Mouse with ultra battery duration',
+    src: 'https://hips.hearstapps.com/hmg-prod/images/index-online-64da7782717b2.jpg?crop=0.502xw:1.00xh;0.250xw,0&resize=640:*',
+    name: 'Summer Wear',
+    price: 55,
+    category: 'Clothing',
+    description: 'best men summer wear',
   },
   {
     id: 12,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg',
-    name: 'Mouse',
-    price: 30,
-    category: 'Electronics',
-    description: 'best Mouse with ultra battery duration',
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5f2VGE3tXT1-LuhpTh8JJVg6I3Igx0eTe1A6OTyrNPogFz2DOKmyHzBR-gPK_e8Uqoxg&usqp=CAU',
+    name: 'Sweater',
+    price: 45,
+    category: 'Clothing',
+    description: 'best winter sweater',
   },
   {
     id: 13,
@@ -163,10 +165,50 @@ export const products = [
   },
   {
     id: 21,
-    src: 'https://upload.wikimedia.org/wikipedia/commons/2/22/3-Tasten-Maus_Microsoft.jpg',
-    name: 'Mouse',
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyyorrFcmEZUsGZ9LgzesSFCx-cQid1r90Ew&usqp=CAU',
+    name: 'Bedminton',
     price: 30,
-    category: 'Electronics',
-    description: 'best Mouse with ultra battery duration',
+    category: 'Sport',
+    description: 'best bedminton with long use duration',
+  },
+  {
+    id: 22,
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsci_wzbKJi3r4B2KNLn1UMUkbxmmUdhADSw&usqp=CAU',
+    name: 'Basketball',
+    price: 30,
+    category: 'Sport',
+    description: 'best basketball with long use duration',
+  },
+  {
+    id: 23,
+    src: 'https://play-lh.googleusercontent.com/sGLRNk9RIEPSsh8I8ZGiWnNYXcDTYkT7vPbfbn-7F-iXUWj9Q01Eh8SZfp014h22aA',
+    name: 'Women Accessories',
+    price: 30,
+    category: 'Accessories',
+    description: 'best women Acccessories with long use duration',
+  },
+  {
+    id: 24,
+    src: 'https://i.ebayimg.com/images/g/bRkAAOSwpaVkazHt/s-l400.jpg',
+    name: 'Glasses',
+    price: 30,
+    category: 'Accessories',
+    description: 'best women Acccessories with long use duration',
+  },
+  {
+    id: 25,
+    src: 'https://furniturehub.pk/wp-content/uploads/2021/04/1750-TRIANGLE-DINING-TABLE.jpg',
+    name: 'Dining Table',
+    price: 30,
+    category: 'Furniture',
+    description: 'best state of the art Dining Table.',
+  },
+  {
+    id: 26,
+    src: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLxRNNivBW5z_ksnpUpYR2aSgtViFUBjpN9w&usqp=CAU',
+    name: 'Bed Set',
+    price: 30,
+    category: 'Furniture',
+    description: 'best state of the art Bed Set.',
   },
 ];

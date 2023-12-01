@@ -1,0 +1,52 @@
+h1 {
+  text-align: center;
+}
+.categories {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+  .category-card {
+    flex: 0 1 calc(33.33% - 50px);
+    text-align: center;
+    min-width: 250px;
+    height: 350px;
+    box-sizing: border-box;
+
+    .mat-mdc-card-header {
+      background-color: rgb(207, 207, 251);
+      padding: 0;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+    }
+
+    .mat-card-image {
+      width: 50%;
+      height: 250px;
+    }
+
+    .add-btn {
+      width: 100%;
+      display: flex;
+      padding: 15px;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      color: blue;
+    }
+  }
+}

@@ -1,12 +1,8 @@
 name: Check Coverage
 
 on:
-  push:
-    branches-ignore:
-      - '*'
-  pull_request:
-    branches-ignore:
-      - '*'
+  push: {}
+  pull_request: {}
 
 jobs:
   build-and-test:
