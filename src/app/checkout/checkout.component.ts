@@ -1,22 +1,30 @@
-/* eslint-disable @typescript-eslint/adjacent-overload-signatures */
 import { Component, OnInit } from '@angular/core';
+import { CartService } from '../services/cart/cart.service';
+import { ICartItem } from '../cart/cart.model';
 import { Store } from '@ngrx/store';
-import { selectCartItems } from './cart.selectors';
-import { ICartItem } from './cart.model';
-import { Router } from '@angular/router';
+import { selectCartItems } from '../cart/cart.selectors';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss'],
+  selector: 'app-checkout',
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.scss'],
 })
-export class CartComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
   cartItems: ICartItem[] = [];
+
+  shippingDetail = {
+    name: '',
+    address: '',
+    city: '',
+  };
+
   constructor(
-    private readonly store: Store,
-    private readonly router: Router,
-    private readonly location: Location,
+    private cartService: CartService,
+    private store: Store,
+    private location: Location,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -41,10 +49,12 @@ export class CartComponent implements OnInit {
     return total;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  checkout() {
-    this.router.navigate(['checkout']);
+  placeOrder() {
+    window.alert('Your order has been placed thank you');
+    this.cartService.clearCart();
+    this.router.navigate(['']);
   }
+
   goBack() {
     this.location.back();
   }

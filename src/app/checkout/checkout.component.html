@@ -1,0 +1,74 @@
+<div class="checkout-container">
+  <h1>Checkout</h1>
+
+  <div class="shipping-address">
+    <h2>Shipping Details</h2>
+
+    <form #checkoutForm="ngForm" (ngSubmit)="placeOrder()">
+      <label for="fullName">Full Name:</label>
+      <input
+        type="text"
+        id="fullName"
+        name="fullName"
+        [(ngModel)]="shippingDetail.name"
+        required
+      />
+      <div
+        *ngIf="
+          !checkoutForm.controls['fullName']?.valid &&
+          checkoutForm.controls['fullName']?.dirty
+        "
+        class="error-message"
+      >
+        Full Name is required.
+      </div>
+
+      <label for="address">Address:</label>
+      <input
+        id="address"
+        name="address"
+        [(ngModel)]="shippingDetail.address"
+        required
+      />
+      <div
+        *ngIf="
+          !checkoutForm.controls['address']?.valid &&
+          checkoutForm.controls['address']?.dirty
+        "
+        class="error-message"
+      >
+        Address is required.
+      </div>
+
+      <label for="city">City:</label>
+      <input
+        type="text"
+        id="city"
+        name="city"
+        [(ngModel)]="shippingDetail.city"
+        required
+      />
+      <div
+        *ngIf="
+          !checkoutForm.controls['city']?.valid &&
+          checkoutForm.controls['city']?.dirty
+        "
+        class="error-message"
+      >
+        City is required.
+      </div>
+
+      <button type="submit" [disabled]="!checkoutForm.valid">
+        Place Order
+      </button>
+    </form>
+  </div>
+
+  <div class="order-summary">
+    <h2>Order Summary</h2>
+    <p class="total-items">Total Items: {{ getTotalItems() }}</p>
+    <p class="total-price">Total Price: {{ getTotalPrice() | currency }}</p>
+  </div>
+
+  <button class="back-btn" type="button" (click)="goBack()">Go Back</button>
+</div>

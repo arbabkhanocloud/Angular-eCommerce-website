@@ -79,4 +79,11 @@ describe('CartService', () => {
       CartActions.deleteItemFromCart({ item }),
     );
   });
+
+  it('should dispatch clearCart action', () => {
+    const spyDispatch = spyOn(store, 'dispatch');
+
+    service.clearCart();
+    expect(spyDispatch).toHaveBeenCalledWith(CartActions.clearCart());
+  });
 });

@@ -9,7 +9,14 @@
     margin-top: 15px;
     padding: 15px;
     color: black;
+    font-size: 18px;
+    font-weight: 500;
     border-radius: 5px;
     cursor: pointer;
+
+    &:hover {
+      background-color: black;
+      color: white;
+    }
   }
 }
