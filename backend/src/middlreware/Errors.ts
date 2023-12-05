@@ -11,7 +11,7 @@ const errorHanlder: ErrorRequestHandler = (
   res: Response,
   nex: NextFunction
 ) => {
-  // console.error(err);
+  console.error(err);
   res.json({ message: err.message });
 };
 

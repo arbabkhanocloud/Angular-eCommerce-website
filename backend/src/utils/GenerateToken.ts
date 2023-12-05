@@ -2,8 +2,12 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 
 export const generateToken = (id: mongoose.Types.ObjectId) => {
-  const sercretKey = process.env.JWT_SECRET_KEY || "ASdfasdfasdfasdf";
-  return jwt.sign({ id }, sercretKey, {
+  if (!process.env.JWT_SECRET_KEY) {
+    throw new Error(
+      "JWT_SECRET_KEY is not defined in the environment variables"
+    );
+  }
+  return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
     expiresIn: "1d",
   });
 };

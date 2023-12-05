@@ -4,3 +4,9 @@ export type userDto = {
   password: string;
   isAdmin: boolean;
 };
+
+declare namespace Express {
+  interface Request {
+    user?: userDto;
+  }
+}

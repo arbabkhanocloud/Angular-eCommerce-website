@@ -5,8 +5,9 @@ import { validateUser, validateUpdateUserById } from "../validation/User";
 import { User } from "../models/User";
 import mongoose from "mongoose";
 import { generateToken } from "../utils/GenerateToken";
+import { CustomRequest } from "../types/Types";
 
-export const userSignup = async (req: Request, res: Response) => {
+export const userSignup = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
   const { error } = validateUser(req.body);
   if (error) {
@@ -39,7 +40,8 @@ export const userSignup = async (req: Request, res: Response) => {
   });
 };
 
-export const getAllUser = async (req: Request, res: Response) => {
+export const getAllUser = async (req: CustomRequest, res: Response) => {
+  console.log(req.user);
   const users = await User.find();
   if (!users.length) {
     res.status(400).send("No user found");
@@ -47,7 +49,7 @@ export const getAllUser = async (req: Request, res: Response) => {
   res.status(200).send(users);
 };
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: CustomRequest, res: Response) => {
   const userId = req.params.id;
   const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
   if (!isValidUserId) {
@@ -66,7 +68,7 @@ export const getUserById = async (req: Request, res: Response) => {
   res.send(user);
 };
 
-export const updateUserById = async (req: Request, res: Response) => {
+export const updateUserById = async (req: CustomRequest, res: Response) => {
   const userId = req.params.id;
   const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
   if (!isValidUserId) {
@@ -94,7 +96,7 @@ export const updateUserById = async (req: Request, res: Response) => {
   }
 };
 
-export const deletUserById = async (req: Request, res: Response) => {
+export const deletUserById = async (req: CustomRequest, res: Response) => {
   const userId = req.params.id;
   const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
   if (!isValidUserId) {
@@ -112,7 +114,7 @@ export const deletUserById = async (req: Request, res: Response) => {
   }
 };
 
-export const userLogin = async (req: Request, res: Response) => {
+export const userLogin = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
 
   const user = await User.findOne({ username });
