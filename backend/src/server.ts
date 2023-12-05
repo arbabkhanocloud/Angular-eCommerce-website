@@ -17,12 +17,9 @@ app.use(
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
+  res.send("Serve is up and Running...");
 });
-
 app.use("/api/users", User);
-
-app.use(errorHanlder);
 
 app.listen(port, async () => {
   try {
@@ -32,3 +29,5 @@ app.listen(port, async () => {
     console.error("Could not connect to the MongoDB");
   }
 });
+
+app.use(errorHanlder);

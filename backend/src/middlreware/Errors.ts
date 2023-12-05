@@ -6,12 +6,13 @@ import type {
 } from "express";
 
 const errorHanlder: ErrorRequestHandler = (
-  err: any,
+  err: Error,
   req: Request,
   res: Response,
   nex: NextFunction
 ) => {
-  res.status(500).send("Something Failed");
+  // console.error(err);
+  res.json({ message: err.message });
 };
 
 export default errorHanlder;
