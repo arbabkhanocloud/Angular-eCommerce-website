@@ -8,9 +8,17 @@ import {
   getProductsByCategoryId,
 } from "../controllers/Product";
 
+import {
+  authenticateUser,
+  authenticateUserAsAdmin,
+} from "../middlreware/Athentication";
+
 const router = express.Router();
 
-router.route("/").get(getAllProuducts).post(addProduct);
+router
+  .route("/")
+  .get(authenticateUser, authenticateUserAsAdmin, getAllProuducts)
+  .post(authenticateUser, authenticateUserAsAdmin, addProduct);
 router
   .route("/:id")
   .get(getProductById)

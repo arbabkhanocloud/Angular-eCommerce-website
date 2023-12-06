@@ -14,7 +14,7 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(authenticateUser, authenticateUserAsAdmin, getAllCategories)
+  .get(getAllCategories)
   .post(authenticateUser, authenticateUserAsAdmin, addCategory);
 router
   .route("/:id")

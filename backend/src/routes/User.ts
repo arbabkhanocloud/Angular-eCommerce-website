@@ -10,8 +10,8 @@ import {
 
 const router = express.Router();
 
-router.route("/").get(authenticateUser, getAllUser).post(userSignup);
 router.post("/login", userLogin);
+router.route("/").get(authenticateUser, getAllUser).post(userSignup);
 router
   .route("/:id")
   .get(authenticateUser, authenticateUserAsAdmin, getUserById)

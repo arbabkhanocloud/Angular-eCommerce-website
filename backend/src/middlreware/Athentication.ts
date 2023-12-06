@@ -19,8 +19,8 @@ export const authenticateUser = async (
     try {
       const [bearer, token] = authorizationHeader.split(" ");
       jwtToken = token;
-
       const decodedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
       const userId = (decodedJWT as { id?: string })?.id;
       const user = await User.findById(userId);
       req.user = user;
