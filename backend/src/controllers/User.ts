@@ -42,9 +42,6 @@ export const userSignup = async (req: CustomRequest, res: Response) => {
 
 export const getAllUser = async (req: CustomRequest, res: Response) => {
   const users = await User.find();
-  if (!users.length) {
-    res.status(400).send("No user found");
-  }
   res.status(200).send(users);
 };
 

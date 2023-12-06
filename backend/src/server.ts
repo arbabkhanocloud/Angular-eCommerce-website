@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import errorHanlder from "./middlreware/Errors";
 import User from "./routes/User";
 import Category from "./routes/Category";
+import Product from "./routes/Product";
 import { databaseConnection } from "./config/DatabaseConnection";
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 app.use("/api/users", User);
 app.use("/api/category", Category);
+app.use("/api/product", Product);
 
 app.listen(port, async () => {
   try {

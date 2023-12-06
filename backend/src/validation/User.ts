@@ -7,7 +7,6 @@ export const validateUser = (user: Object) => {
     password: Joi.string().min(8).required(),
     isAdmin: Joi.boolean(),
   });
-  Joi.valid;
   return userSchema.validate(user);
 };
 

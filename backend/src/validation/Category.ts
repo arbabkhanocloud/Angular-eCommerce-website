@@ -6,6 +6,5 @@ export const validateCategory = (category: categoryDto) => {
     type: Joi.string().required(),
     imageUrl: Joi.string().uri().required(),
   });
-  Joi.valid;
   return categorySchema.validate(category);
 };

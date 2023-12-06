@@ -7,10 +7,6 @@ import mongoose from "mongoose";
 
 export const getAllCategories = async (req: CustomRequest, res: Response) => {
   const categories = await Category.find();
-  if (!categories.length) {
-    res.status(404);
-    throw new Error("No category found.");
-  }
   res.status(200).json(categories);
 };
 
@@ -45,7 +41,7 @@ export const updateCategory = async (req: CustomRequest, res: Response) => {
 
   if (!isValidCategoryId) {
     res.status(400);
-    throw new Error("Invalid category Id.");
+    throw new Error("Invalid category id.");
   }
 
   const { error } = validateCategory(req.body);
