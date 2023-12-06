@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { categoryDto } from "../dto/User";
+import { categoryDto } from "../dto/Category";
 
 export const validateCategory = (category: categoryDto) => {
   const categorySchema = Joi.object().keys({

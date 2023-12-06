@@ -4,8 +4,3 @@ export type userDto = {
   password: string;
   isAdmin: boolean;
 };
-
-export type categoryDto = {
-  type: string;
-  imageUrl: string;
-};
