@@ -5,8 +5,7 @@ export type userDto = {
   isAdmin: boolean;
 };
 
-declare namespace Express {
-  interface Request {
-    user?: userDto;
-  }
-}
+export type categoryDto = {
+  type: string;
+  imageUrl: string;
+};

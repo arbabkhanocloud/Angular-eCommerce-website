@@ -44,7 +44,6 @@ export const authenticateUserAsAdmin = (
   res: Response,
   next: NextFunction
 ) => {
-  console.log("req user is:  ", req.user);
   if (req.user && req.user.isAdmin) {
     next();
   } else {

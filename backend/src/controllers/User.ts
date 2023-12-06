@@ -1,6 +1,6 @@
 import "express-async-errors";
 import bcrypt from "bcrypt";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { validateUser, validateUpdateUserById } from "../validation/User";
 import { User } from "../models/User";
 import mongoose from "mongoose";
@@ -41,7 +41,6 @@ export const userSignup = async (req: CustomRequest, res: Response) => {
 };
 
 export const getAllUser = async (req: CustomRequest, res: Response) => {
-  console.log(req.user);
   const users = await User.find();
   if (!users.length) {
     res.status(400).send("No user found");
@@ -117,7 +116,15 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
 export const userLogin = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
 
+  console.log("username : ", username);
+  console.log("pass:  ", password);
+
   const user = await User.findOne({ username });
+  console.log("user is: user:  ", user);
+  if (user) {
+    const ismatched = await bcrypt.compare(password, user.password);
+    console.log("is matched:   ", user.password);
+  }
   if (user && (await bcrypt.compare(password, user.password))) {
     const token = generateToken(user._id);
     res.status(200).json({

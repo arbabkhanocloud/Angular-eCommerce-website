@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import errorHanlder from "./middlreware/Errors";
 import User from "./routes/User";
+import Category from "./routes/Category";
 import { databaseConnection } from "./config/DatabaseConnection";
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Serve is up and Running...");
 });
 app.use("/api/users", User);
+app.use("/api/category", Category);
 
 app.listen(port, async () => {
   try {
