@@ -73,7 +73,11 @@ export const getUserProfile = async (req: CustomRequest, res: Response) => {
     throw new Error("User not found.");
   }
 
-  res.status(200).json(user);
+  res.status(200).json({
+    fullname: user.fullName,
+    username: user.username,
+    isAdmin: user.isAdmin,
+  });
 };
 
 export const updateUserProfile = async (req: CustomRequest, res: Response) => {
