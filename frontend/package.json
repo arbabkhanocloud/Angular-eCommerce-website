@@ -15,6 +15,7 @@
     "format-check": "prettier --check src/app/**/*.{json,css,scss,less,md,ts,html}",
     "format": "prettier --write src/app/**/*.{json,css,scss,less,md,ts,html}"
   },
+  "author": "Arbab Khan",
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.2.0",

@@ -15,6 +15,7 @@ import {
 
 const router = express.Router();
 
+router.route("/category/:id").get(getProductsByCategoryId);
 router
   .route("/")
   .get(authenticateUser, authenticateUserAsAdmin, getAllProuducts)
@@ -22,8 +23,7 @@ router
 router
   .route("/:id")
   .get(getProductById)
-  .put(updateProduct)
-  .delete(deleteProduct);
-router.route("/category/:id").get(getProductsByCategoryId);
+  .put(authenticateUser, authenticateUserAsAdmin, updateProduct)
+  .delete(authenticateUser, authenticateUserAsAdmin, deleteProduct);
 
 export default router;

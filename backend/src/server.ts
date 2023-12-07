@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, Application } from "express";
+import express, { Request, Response, Application, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import errorHanlder from "./middlreware/Errors";
@@ -27,6 +27,13 @@ app.use("/api/category", Category);
 app.use("/api/product", Product);
 app.use("/api/order", Order);
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const error = new Error("Not Found");
+  res.status(404);
+  next(error);
+});
+app.use(errorHanlder);
+
 app.listen(port, async () => {
   try {
     await databaseConnection();
@@ -35,5 +42,3 @@ app.listen(port, async () => {
     console.error("Could not connect to the MongoDB");
   }
 });
-
-app.use(errorHanlder);

@@ -113,15 +113,7 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
 export const userLogin = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
 
-  console.log("username : ", username);
-  console.log("pass:  ", password);
-
   const user = await User.findOne({ username });
-  console.log("user is: user:  ", user);
-  if (user) {
-    const ismatched = await bcrypt.compare(password, user.password);
-    console.log("is matched:   ", user.password);
-  }
   if (user && (await bcrypt.compare(password, user.password))) {
     const token = generateToken(user._id);
     res.status(200).json({

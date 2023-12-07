@@ -1,8 +1,12 @@
 import express from "express";
-import { getAllUser } from "../controllers/User";
-import { userSignup } from "../controllers/User";
-import { getUserById } from "../controllers/User";
-import { updateUserById, deletUserById, userLogin } from "../controllers/User";
+import {
+  updateUserById,
+  deletUserById,
+  userLogin,
+  getAllUser,
+  userSignup,
+  getUserById,
+} from "../controllers/User";
 import {
   authenticateUser,
   authenticateUserAsAdmin,
@@ -11,7 +15,10 @@ import {
 const router = express.Router();
 
 router.post("/login", userLogin);
-router.route("/").get(authenticateUser, getAllUser).post(userSignup);
+router
+  .route("/")
+  .get(authenticateUser, authenticateUserAsAdmin, getAllUser)
+  .post(userSignup);
 router
   .route("/:id")
   .get(authenticateUser, authenticateUserAsAdmin, getUserById)

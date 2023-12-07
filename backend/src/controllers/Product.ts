@@ -1,3 +1,4 @@
+import "express-async-errors";
 import { CustomRequest } from "../types/Types";
 import { Response } from "express";
 import { validateProduct } from "../validation/Product";

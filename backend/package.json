@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/Server.ts",
+  "engines": {
+    "node": "v18.14.0"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node dist/Server.js",
     "dev": "nodemon"
   },
   "keywords": [],
-  "author": "",
+  "author": "Arbab Khan",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

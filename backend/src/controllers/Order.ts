@@ -1,3 +1,4 @@
+import "express-async-errors";
 import { CustomRequest } from "../types/Types";
 import { Response } from "express";
 import { validateOrder, validateUpdateOrder } from "../validation/Order";
@@ -6,8 +7,6 @@ import mongoose from "mongoose";
 
 export const addOrder = async (req: CustomRequest, res: Response) => {
   const { error } = validateOrder(req.body);
-
-  console.log("user:  ", req.user);
 
   if (error) {
     res.status(400);
