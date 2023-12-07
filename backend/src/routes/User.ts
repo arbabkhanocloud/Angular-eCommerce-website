@@ -6,6 +6,8 @@ import {
   getAllUser,
   userSignup,
   getUserById,
+  getUserProfile,
+  updateUserProfile,
 } from "../controllers/User";
 import {
   authenticateUser,
@@ -14,11 +16,14 @@ import {
 
 const router = express.Router();
 
+router.route("/signup").post(userSignup);
 router.post("/login", userLogin);
+router.route("/").get(authenticateUser, authenticateUserAsAdmin, getAllUser);
 router
-  .route("/")
-  .get(authenticateUser, authenticateUserAsAdmin, getAllUser)
-  .post(userSignup);
+  .route("/profile")
+  .get(authenticateUser, getUserProfile)
+  .post(authenticateUser, updateUserProfile);
+
 router
   .route("/:id")
   .get(authenticateUser, authenticateUserAsAdmin, getUserById)

@@ -64,6 +64,54 @@ export const getUserById = async (req: CustomRequest, res: Response) => {
   res.send(user);
 };
 
+export const getUserProfile = async (req: CustomRequest, res: Response) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found.");
+  }
+
+  res.status(200).json(user);
+};
+
+export const updateUserProfile = async (req: CustomRequest, res: Response) => {
+  console.log("inside user updated profile:   ");
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found.");
+  }
+
+  if (Object.keys(req.body).length === 0) {
+    res.status(400);
+    throw new Error("Empty request body.");
+  }
+  const { fullName, username, password } = req.body;
+
+  if (username) {
+    const userExist = await User.findOne({ username: username });
+    if (userExist) {
+      res.status(400);
+      throw new Error("Username is already in use.");
+    }
+  }
+
+  user.fullName = fullName || user.fullName;
+  user.username = username || user.username;
+  user.password = password || user.password;
+
+  const updatedUser = await user.save();
+  res.status(200).json({
+    fullName: updatedUser.fullName,
+    username: updatedUser.username,
+    isAdmin: updatedUser.isAdmin,
+  });
+};
+
 export const updateUserById = async (req: CustomRequest, res: Response) => {
   const userId = req.params.id;
   const isValidUserId = mongoose.Types.ObjectId.isValid(userId);
