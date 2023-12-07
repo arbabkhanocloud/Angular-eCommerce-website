@@ -77,7 +77,6 @@ export const getUserProfile = async (req: CustomRequest, res: Response) => {
 };
 
 export const updateUserProfile = async (req: CustomRequest, res: Response) => {
-  console.log("inside user updated profile:   ");
   const userId = req.user._id;
   const user = await User.findById(userId);
 
