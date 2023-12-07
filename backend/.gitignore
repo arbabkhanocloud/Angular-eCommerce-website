@@ -1,0 +1,8 @@
+#ignore node moduel folder
+node_modules
+
+#ignore dot env files
+.env
+
+#ignore dist folder 
+dist
