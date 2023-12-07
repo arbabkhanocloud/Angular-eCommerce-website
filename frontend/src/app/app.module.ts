@@ -16,6 +16,7 @@ import { reducers, metaReducers } from '../app/reducer/index';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ProductDetailsComponent,
     CategoriesComponent,
     CheckoutComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

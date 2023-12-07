@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { ProductDetailsComponent } from './product/product-details/product-details.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,7 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
+  { path: 'signup', component: SignupComponent },
   {
     path: 'checkout',
     component: CheckoutComponent,

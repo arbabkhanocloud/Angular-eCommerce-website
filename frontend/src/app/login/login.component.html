@@ -1,1 +1,27 @@
-<p>login works!</p>
+<div class="login-container">
+    <h2>Login</h2>
+    <form #signinForm="ngForm" (ngSubmit)="onSubmit()">
+        <label for="username">Username:</label>
+        <input type="email" id="username" name="username" [(ngModel)]="username" required>
+        <div *ngIf="!signinForm.controls['username']?.valid && signinForm.controls['username']?.dirty"
+            class="error-message">
+            Username is required.
+        </div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" [(ngModel)]="password" required>
+        <div *ngIf="!signinForm.controls['password']?.valid && signinForm.controls['password']?.dirty"
+            class="error-message">
+            password is required.
+        </div>
+
+
+
+        <button type="submit" [disabled]="!signinForm.valid  || isLoading">Login</button>
+
+        <div *ngIf="isLoading" class="loader">Loading...</div>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </form>
+
+    <p>Don't have an account? <a routerLink="/signup">Sign up</a></p>
+</div>
