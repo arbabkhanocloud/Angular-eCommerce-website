@@ -71,7 +71,7 @@ export const getProductsByCategoryId = async (
   }
 
   const productsByCategoryId = await Proudct.find({
-    categoryId: req.body.categoryId,
+    categoryId: categoryId,
   });
 
   res.status(200).json(productsByCategoryId);
