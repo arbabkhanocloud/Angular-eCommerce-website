@@ -17,6 +17,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 import { CategoriesComponent } from './categories/categories.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SignupComponent } from './signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SignupComponent } from './signup/signup.component';
     MaterialModule,
     FormsModule,
     CartModule,
+    HttpClientModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

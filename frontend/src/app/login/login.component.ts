@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,16 +12,23 @@ export class LoginComponent {
   password = '';
   errorMessage = '';
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly router: Router,
+    private readonly authService: AuthService,
+  ) {}
 
   onSubmit() {
     this.isLoading = true;
-    // Simulating an asynchronous signIn process
-    setTimeout(() => {
-      // Assuming login is successful
-      this.isLoading = false;
-      this.router.navigate(['']);
-    }, 2000);
-    this.errorMessage = '';
+    this.authService.login(this.username, this.password).subscribe(
+      (user) => {
+        this.isLoading = false;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this.isLoading = false;
+        this.errorMessage = error.error.message;
+      },
+    );
   }
 }
