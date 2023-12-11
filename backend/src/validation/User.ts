@@ -2,7 +2,7 @@ import Joi from "joi";
 
 export const validateUser = (user: Object) => {
   const userSchema = Joi.object().keys({
-    fullname: Joi.string().min(3).required(),
+    fullName: Joi.string().min(3),
     username: Joi.string().email().required(),
     password: Joi.string().min(8).required(),
     isAdmin: Joi.boolean(),
@@ -12,7 +12,7 @@ export const validateUser = (user: Object) => {
 
 export const validateUpdateUserById = (user: Object) => {
   const userSchema = Joi.object().keys({
-    fullname: Joi.string().min(3),
+    fullName: Joi.string().min(3),
     username: Joi.string().email(),
     password: Joi.string().min(8),
     isAdmin: Joi.boolean().required(),

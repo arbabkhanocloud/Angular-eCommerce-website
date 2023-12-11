@@ -2,9 +2,9 @@ import express from "express";
 import {
   updateUserById,
   deletUserById,
-  userLogin,
+  login,
   getAllUser,
-  userSignup,
+  signup,
   getUserById,
   getUserProfile,
   updateUserProfile,
@@ -16,8 +16,8 @@ import {
 
 const router = express.Router();
 
-router.route("/signup").post(userSignup);
-router.post("/login", userLogin);
+router.route("/signup").post(signup);
+router.post("/login", login);
 router.route("/").get(authenticateUser, authenticateUserAsAdmin, getAllUser);
 router
   .route("/profile")
