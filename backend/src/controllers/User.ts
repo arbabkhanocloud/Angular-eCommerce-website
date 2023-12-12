@@ -117,19 +117,7 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid user id");
   }
 
-  const userDeletec = await userServiceInstance.findAndDeleteUserById(
-    userId,
-    res
-  );
-
-  const user = await User.findById(userId);
-  if (!user) {
-    res.status(404);
-    throw new Error("User not found");
-  } else {
-    await user.deleteOne();
-    res.status(200).json({ message: "user deleted successfully" });
-  }
+  await userServiceInstance.findAndDeleteUserById(userId, res);
 };
 
 export const login = async (req: CustomRequest, res: Response) => {
