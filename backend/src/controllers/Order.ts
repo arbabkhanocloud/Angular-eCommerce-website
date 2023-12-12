@@ -1,9 +1,9 @@
 import "express-async-errors";
 import { CustomRequest } from "../types/Types";
 import { Response } from "express";
-import { validateOrder, validateUpdateOrder } from "../validation/Order";
-import { Order } from "../models/Order";
-import mongoose from "mongoose";
+import { validateOrder } from "../validation/Order";
+import { orderServiceInstance } from "../Server";
+import { orderDTO } from "../dto/Order";
 
 export const addOrder = async (req: CustomRequest, res: Response) => {
   const { error } = validateOrder(req.body);
@@ -13,28 +13,18 @@ export const addOrder = async (req: CustomRequest, res: Response) => {
     throw new Error(error.details[0].message);
   }
 
-  const { items, shippingDetails, totalPrice, totalQuantity } = req.body;
-
-  let order = new Order({
-    userId: req.user._id,
-    items: items,
-    shippingDetails: shippingDetails,
-    totalPrice: totalPrice,
-    totalQuantity: totalQuantity,
-  });
-
-  order = await order.save();
-
-  res.status(200).json(order);
+  const orderData: orderDTO = req.body;
+  const placedOrder = await orderServiceInstance.placeOrder(orderData, res);
+  res.status(201).json(placedOrder);
 };
 
 export const getAllOrders = async (req: CustomRequest, res: Response) => {
-  const orders = await Order.find();
+  const orders = await orderServiceInstance.getAllOrders();
   res.status(200).json(orders);
 };
 
 export const getOrdersByUserId = async (req: CustomRequest, res: Response) => {
   const userId = req.user._id;
-  const orders = await Order.find({ userId });
+  const orders = await orderServiceInstance.findOrderByUserId(userId, res);
   res.status(200).json(orders);
 };

@@ -11,6 +11,7 @@ import { databaseConnection } from "./config/DatabaseConnection";
 import container from "./container/Inversify.container";
 import { UserService } from "./services/User";
 import { CategoryService } from "./services/Category";
+import { OrderService } from "./services/Order";
 
 dotenv.config();
 const app: Application = express();
@@ -25,6 +26,7 @@ app.use(express.json());
 
 export const userServiceInstance = container.resolve(UserService);
 export const categoryServiceInstance = container.resolve(CategoryService);
+export const orderServiceInstance = container.resolve(OrderService);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Serve is up and Running...");
