@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express, { Request, Response, Application, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,6 +8,8 @@ import Category from "./routes/Category";
 import Product from "./routes/Product";
 import Order from "./routes/Order";
 import { databaseConnection } from "./config/DatabaseConnection";
+import container from "./container/Inversify.container";
+import { UserService } from "./services/User";
 
 dotenv.config();
 const app: Application = express();
@@ -19,6 +22,7 @@ app.use(
 );
 app.use(express.json());
 
+export const userServiceInstance = container.resolve(UserService);
 app.get("/", (req: Request, res: Response) => {
   res.send("Serve is up and Running...");
 });

@@ -1,34 +1,32 @@
 import "express-async-errors";
-import bcrypt from "bcrypt";
 import { Response } from "express";
-import { validateUser, validateUpdateUserById } from "../validation/User";
+import {
+  validateUser,
+  validateUpdateUserById,
+  validateUpdateUserProfileById,
+} from "../validation/User";
 import { User } from "../models/User";
 import mongoose from "mongoose";
 import { CustomRequest } from "../types/Types";
-import {
-  registerNewUser,
-  findAllUsers,
-  findUserById,
-  findUserProfileById,
-  findAndUpdateUserProfileById,
-  findAndUpdateUserById,
-  findAndDeleteUserById,
-  userLogin,
-} from "../services/User";
 import { userDto } from "../dto/User";
+import { userServiceInstance } from "../Server";
 
 export const signup = async (req: CustomRequest, res: Response) => {
   const userData: userDto = req.body;
   const { error } = validateUser(req.body);
   if (error) {
-    res.status(400).send(error.details[0].message);
+    res.status(400);
+    throw new Error(error.details[0].message);
   }
-  const regiesteredUser = await registerNewUser(userData, res);
+  const regiesteredUser = await userServiceInstance.registerNewUser(
+    userData,
+    res
+  );
   res.status(200).json(regiesteredUser);
 };
 
 export const getAllUser = async (req: CustomRequest, res: Response) => {
-  const users = await findAllUsers();
+  const users = await userServiceInstance.findAllUsers();
   res.status(200).send(users);
 };
 
@@ -39,7 +37,7 @@ export const getUserById = async (req: CustomRequest, res: Response) => {
     res.status(400);
     throw new Error("Invalid user id");
   }
-  const user = await findUserById(userId);
+  const user = await userServiceInstance.findUserById(userId);
   if (!user) {
     res.status(404);
     throw new Error("No user found");
@@ -49,7 +47,10 @@ export const getUserById = async (req: CustomRequest, res: Response) => {
 
 export const getUserProfile = async (req: CustomRequest, res: Response) => {
   const userId = req.user._id;
-  const userProfile = await findUserProfileById(userId, res);
+  const userProfile = await userServiceInstance.findUserProfileById(
+    userId,
+    res
+  );
   res.status(200).json(userProfile);
 };
 
@@ -58,13 +59,19 @@ export const updateUserProfile = async (req: CustomRequest, res: Response) => {
     res.status(400);
     throw new Error("Empty request body.");
   }
+  const { error } = validateUpdateUserProfileById(req.body);
+  if (error) {
+    res.status(400);
+    throw new Error(`${error.details[0].message}`);
+  }
   const userId = req.user._id;
   const { fullName, username, password } = req.body;
-  const updatedUserProfile = await findAndUpdateUserProfileById(
-    userId,
-    { fullName, username, password },
-    res
-  );
+  const updatedUserProfile =
+    await userServiceInstance.findAndUpdateUserProfileById(
+      userId,
+      { fullName, username, password },
+      res
+    );
 
   res.status(200).json({
     _id: updatedUserProfile?._id,
@@ -89,7 +96,7 @@ export const updateUserById = async (req: CustomRequest, res: Response) => {
   }
 
   const { fullName, username, isAdmin, password } = req.body;
-  const updatedUser = await findAndUpdateUserById(
+  const updatedUser = await userServiceInstance.findAndUpdateUserById(
     userId,
     {
       fullName,
@@ -99,18 +106,7 @@ export const updateUserById = async (req: CustomRequest, res: Response) => {
     },
     res
   );
-  const user = await User.findById(userId);
-  if (!user) {
-    res.status(404);
-    throw new Error("user not found");
-  } else {
-    user.fullName = req.body.fullName || user.fullName;
-    user.username = req.body.username || user.username;
-    user.password = req.body.password || user.password;
-    user.isAdmin = req.body.isAdmin;
-    const updateUser = await user.save();
-    res.json(updateUser);
-  }
+  res.status(200).json(updatedUser);
 };
 
 export const deletUserById = async (req: CustomRequest, res: Response) => {
@@ -121,7 +117,10 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid user id");
   }
 
-  const userDeletec = await findAndDeleteUserById(userId, res);
+  const userDeletec = await userServiceInstance.findAndDeleteUserById(
+    userId,
+    res
+  );
 
   const user = await User.findById(userId);
   if (!user) {
@@ -135,5 +134,5 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
 
 export const login = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
-  await userLogin(username, password, res);
+  await userServiceInstance.userLogin(username, password, res);
 };
