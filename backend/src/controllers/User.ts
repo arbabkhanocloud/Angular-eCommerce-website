@@ -66,19 +66,11 @@ export const updateUserProfile = async (req: CustomRequest, res: Response) => {
   }
   const userId = req.user._id;
   const { fullName, username, password } = req.body;
-  const updatedUserProfile =
-    await userServiceInstance.findAndUpdateUserProfileById(
-      userId,
-      { fullName, username, password },
-      res
-    );
-
-  res.status(200).json({
-    _id: updatedUserProfile?._id,
-    fullName: updatedUserProfile?.fullName,
-    username: updatedUserProfile?.username,
-    isAdmin: updatedUserProfile?.isAdmin,
-  });
+  await userServiceInstance.updateUserProfileById(
+    userId,
+    { fullName, username, password },
+    res
+  );
 };
 
 export const updateUserById = async (req: CustomRequest, res: Response) => {
@@ -96,7 +88,7 @@ export const updateUserById = async (req: CustomRequest, res: Response) => {
   }
 
   const { fullName, username, isAdmin, password } = req.body;
-  const updatedUser = await userServiceInstance.findAndUpdateUserById(
+  await userServiceInstance.updateUserById(
     userId,
     {
       fullName,
@@ -106,7 +98,6 @@ export const updateUserById = async (req: CustomRequest, res: Response) => {
     },
     res
   );
-  res.status(200).json(updatedUser);
 };
 
 export const deletUserById = async (req: CustomRequest, res: Response) => {

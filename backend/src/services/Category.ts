@@ -68,8 +68,12 @@ export class CategoryService {
         imageUrl: category.imageUrl,
       }
     );
-
-    return updatedCategory;
+    if (updatedCategory.modifiedCount > 0) {
+      res.status(200).json({ message: "Category updated successfully" });
+    } else {
+      res.status(400);
+      throw new Error("Category not found or no changes were made.");
+    }
   }
 
   async deleteCategoryById(categoryId: string, res: Response) {

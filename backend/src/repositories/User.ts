@@ -24,11 +24,8 @@ export class UserRepository {
     return user;
   }
 
-  async saveUserAfterUpdating(userId: any, user: any) {
-    return await User.findByIdAndUpdate(userId, user, {
-      new: true,
-      runValidators: true,
-    });
+  async updateUser(userId: any, user: any) {
+    return await User.updateOne({ _id: userId }, { $set: user });
   }
 
   async deleteUserById(userId: string) {

@@ -58,7 +58,7 @@ export class UserService {
     };
   }
 
-  async findAndUpdateUserProfileById(
+  async updateUserProfileById(
     userId: string,
     updatedData: Partial<userDto>,
     res: Response
@@ -84,19 +84,20 @@ export class UserService {
       ? await bcrypt.hash(updatedData.password, 10)
       : user.password;
 
-    const updatedUser = await this.userRepository.saveUserAfterUpdating(
-      user._id,
-      {
-        fullName: user.fullName,
-        username: user.username,
-        password: user.password,
-      }
-    );
-
-    return updatedUser;
+    const updatedUser = await this.userRepository.updateUser(user._id, {
+      fullName: user.fullName,
+      username: user.username,
+      password: user.password,
+    });
+    if (updatedUser.modifiedCount > 0) {
+      res.status(200).json({ message: "User Profile updated successfully" });
+    } else {
+      res.status(400);
+      throw new Error("User not found or no changes were made.");
+    }
   }
 
-  async findAndUpdateUserById(
+  async updateUserById(
     userId: string,
     updatedData: Partial<userDto>,
     res: Response
@@ -125,17 +126,19 @@ export class UserService {
       user.isAdmin = updatedData.isAdmin;
     }
 
-    const updatedUser = await this.userRepository.saveUserAfterUpdating(
-      user._id,
-      {
-        fullName: user.fullName,
-        username: user.username,
-        password: user.password,
-        isAdmin: user.isAdmin,
-      }
-    );
+    const updatedUser = await this.userRepository.updateUser(user._id, {
+      fullName: user.fullName,
+      username: user.username,
+      password: user.password,
+      isAdmin: user.isAdmin,
+    });
 
-    return updatedUser;
+    if (updatedUser.modifiedCount > 0) {
+      res.status(200).json({ message: "User Profile updated successfully" });
+    } else {
+      res.status(400);
+      throw new Error("User not found or no changes were made.");
+    }
   }
 
   async findAndDeleteUserById(id: any, res: Response) {

@@ -43,7 +43,7 @@ export class ProductService {
     const product = await this.findProductById(productId);
 
     if (!product) {
-      res.status(400);
+      res.status(404);
       throw new Error("Product not found.");
     }
 
@@ -65,7 +65,12 @@ export class ProductService {
         description: product.description,
       }
     );
-    res.status(200).json(updatedProduct);
+    if (updatedProduct.modifiedCount > 0) {
+      res.status(200).json({ message: "Product updated successfully" });
+    } else {
+      res.status(400);
+      throw new Error("Product not found or no changes were made.");
+    }
   }
 
   async deleteProductById(productId: string, res: Response) {

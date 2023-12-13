@@ -26,10 +26,7 @@ export class ProductRepository {
   }
 
   async updateProductById(productId: string, productData: productDTO) {
-    return await Product.findByIdAndUpdate(productId, productData, {
-      new: true,
-      runValidators: true,
-    });
+    return await Product.updateOne({ _id: productId }, { $set: productData });
   }
 
   async deleteProductById(id: string) {

@@ -43,7 +43,7 @@ export const updateCategory = async (req: CustomRequest, res: Response) => {
 
   const { type, imageUrl } = req.body;
 
-  const updatedCategory = await categoryServiceInstance.updateCategory(
+  await categoryServiceInstance.updateCategory(
     categoryId,
     {
       type,
@@ -51,7 +51,6 @@ export const updateCategory = async (req: CustomRequest, res: Response) => {
     },
     res
   );
-  res.status(200).json(updatedCategory);
 };
 
 export const deleteCategory = async (req: CustomRequest, res: Response) => {

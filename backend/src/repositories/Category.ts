@@ -22,10 +22,10 @@ export class CategoryRepository {
   }
 
   async updateCategory(categoryId: any, categoryData: categoryDto) {
-    return await Category.findByIdAndUpdate(categoryId, categoryData, {
-      new: true,
-      runValidators: true,
-    });
+    return await Category.updateOne(
+      { _id: categoryId },
+      { $set: categoryData }
+    );
   }
 
   async deleteCategoryById(categoryId: string) {
