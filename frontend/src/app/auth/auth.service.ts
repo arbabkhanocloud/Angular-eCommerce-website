@@ -1,17 +1,47 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, catchError,tap,switchMap,of,throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private httpClient: HttpClient) {}
+  isAuthenticated$=new BehaviorSubject<boolean>(false);
+  isAdmin$=new BehaviorSubject<boolean>(false);
 
-  login(username: string, password: string): Observable<any> {
+
+  constructor(private httpClient: HttpClient) {
+     const storedUser = localStorage.getItem('currentUser');
+     if (storedUser) {
+       const user = JSON.parse(storedUser);
+       this.isAuthenticated$.next(true);
+       this.isAdmin$.next(user.isAdmin);
+  }}
+
+ isUserAuthenticated=()=>{
+    return this.isAuthenticated$.asObservable();
+  }
+
+  isUserAdmin=()=>{
+    return this.isAdmin$.asObservable()
+  }
+
+  
+
+  login(username: string, password: string) {
     return this.httpClient.post(`http://localhost:8500/api/users/login`, {
       username,
       password,
-    });
+    }).pipe(
+      switchMap(
+        (user: any) => {
+          this.isAuthenticated$.next(true);
+          this.isAdmin$.next(user.isAdmin);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          return of(user);
+        },
+       
+      )
+    );
   }
 
   logout() {

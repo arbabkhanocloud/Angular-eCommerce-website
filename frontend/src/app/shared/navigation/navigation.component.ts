@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { selectCartItems } from 'src/app/cart/cart.selectors';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/auth.service';
+import {  Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -10,15 +12,20 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent implements OnInit {
-  isLogin = true;
+  isUserAuthenticated$!:Observable<boolean>;
+  isUserAuthenticatedAdmin$!:Observable<boolean>;
   cartItemCount!: number;
   showSearchBar = true;
   constructor(
     private readonly router: Router,
     private readonly store: Store,
+    private readonly authService:AuthService
   ) {}
 
   ngOnInit(): void {
+    this.isUserAuthenticated$=this.authService.isUserAuthenticated();
+    this.isUserAuthenticatedAdmin$=this.authService.isUserAdmin();
+
     this.router.events
       .pipe(
         filter(
@@ -41,9 +48,13 @@ export class NavigationComponent implements OnInit {
         0,
       );
     });
+
   }
 
   navigateTo(route: string) {
     this.router.navigate([`${route}`]);
+  }
+  logout(){
+    this.authService.logout();
   }
 }

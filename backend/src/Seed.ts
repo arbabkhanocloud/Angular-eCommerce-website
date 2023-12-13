@@ -9,7 +9,7 @@ import { categories } from "./data/Category";
 // import { products } from "./data/Product";
 import users from "./data/User";
 import bcrypt from "bcrypt";
-
+  
 const seedData = async () => {
   dotenv.config();
   await databaseConnection();

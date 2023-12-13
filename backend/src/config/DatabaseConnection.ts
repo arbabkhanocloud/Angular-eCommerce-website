@@ -6,7 +6,8 @@ export const databaseConnection = async () => {
   if (!mongoUri) {
     console.error(
       "MongoDb URI is not set in evironment variable file. Exiting..."
-    );
+      );
+      process.exit(1)
   } else {
     await mongoose.connect(mongoUri);
     console.log("Connected to the mongoDb...");

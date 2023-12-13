@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { finalize } from 'rxjs';
+import { MatCardLgImage } from '@angular/material/card';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,16 +21,20 @@ export class LoginComponent {
 
   onSubmit() {
     this.isLoading = true;
-    this.authService.login(this.username, this.password).subscribe(
-      (user) => {
-        this.isLoading = false;
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.router.navigate(['']);
-      },
-      (error) => {
-        this.isLoading = false;
-        this.errorMessage = error.error.message;
-      },
-    );
+    this.authService
+      .login(this.username, this.password)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+      )
+      .subscribe(
+        () => {
+          this.router.navigate(['']);
+        },
+        (error) => {
+          this.errorMessage = error.error?.message;
+        },
+      );
   }
 }

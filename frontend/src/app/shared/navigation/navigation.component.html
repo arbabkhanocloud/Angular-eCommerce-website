@@ -11,6 +11,10 @@
 
   <div class="right-container">
     <div
+    *ngIf="(isUserAuthenticatedAdmin$|async) as userAdmin">
+      <mat-icon>supervisor_account</mat-icon>
+    </div>
+    <div
       class="cart-icon"
       (click)="navigateTo('cart')"
       (keyup.enter)="navigateTo('cart')"
@@ -20,16 +24,24 @@
       <span class="cart-item-count">{{ cartItemCount }}</span>
     </div>
     <div
-      class="user-status"
-      (click)="navigateTo('login')"
-      (keyup.enter)="navigateTo('login')"
-      tabindex="0"
-    >
-      <span *ngIf="isLogin; else logoutText">Login</span>
-      <ng-template #logoutText>
-        <span class="user-status">Logout</span>
-      </ng-template>
-    </div>
+    *ngIf="!(isUserAuthenticated$ | async) as isAuthenticated"
+    class="user-status"
+    (click)="navigateTo('login') "
+    (keyup.enter)=" navigateTo('login') "
+    tabindex="0"
+  >
+      <span>Login</span>
+  </div>
+  <div
+  *ngIf="(isUserAuthenticated$ | async) as isAuthenticated"
+    class="user-status"
+    (click)="logout()"
+    (keyup.enter)="logout()"
+    tabindex="0"
+  >
+      <mat-icon>supervised_user_circle</mat-icon>
+  </div>
+ 
   </div>
 </div>
 
