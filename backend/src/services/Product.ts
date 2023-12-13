@@ -2,6 +2,7 @@ import { inject, injectable } from "inversify";
 import { productDTO } from "../dto/Product";
 import { Response } from "express";
 import { ProductRepository } from "../repositories/Product";
+import { ErrorService } from "../errors/ErrorService";
 
 @injectable()
 export class ProductService {
@@ -9,11 +10,10 @@ export class ProductService {
     @inject(ProductRepository) private productRepo: ProductRepository
   ) {}
 
-  async addNewProduct(product: productDTO, res: Response) {
+  async addNewProduct(product: productDTO) {
     const isProductExist = await this.findProductByName(product.name);
     if (isProductExist) {
-      res.status(400);
-      throw new Error("Product Already Exist.");
+      throw new ErrorService(400, "Product Already Exist.");
     }
 
     return await this.productRepo.createProduct(product);
@@ -35,16 +35,11 @@ export class ProductService {
     return await this.productRepo.getProductsByCategoryId(categoryId);
   }
 
-  async updateProductById(
-    productId: string,
-    productData: productDTO,
-    res: Response
-  ) {
+  async updateProductById(productId: string, productData: productDTO) {
     const product = await this.findProductById(productId);
 
     if (!product) {
-      res.status(404);
-      throw new Error("Product not found.");
+      throw new ErrorService(404, "Product not found.");
     }
 
     const { categoryId, name, imageUrl, price, description } = productData;
@@ -65,20 +60,15 @@ export class ProductService {
         description: product.description,
       }
     );
-    if (updatedProduct.modifiedCount > 0) {
-      res.status(200).json({ message: "Product updated successfully" });
-    } else {
-      res.status(400);
-      throw new Error("Product not found or no changes were made.");
-    }
+
+    return updatedProduct;
   }
 
-  async deleteProductById(productId: string, res: Response) {
+  async deleteProductById(productId: string) {
     const product = await this.productRepo.deleteProductById(productId);
 
     if (!product) {
-      res.status(404);
-      throw new Error("Product not found.");
+      throw new ErrorService(404, "Product not found.");
     }
 
     return { message: "Product deleted successfully" };

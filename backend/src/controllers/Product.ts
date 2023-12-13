@@ -14,10 +14,7 @@ export const addProduct = async (req: CustomRequest, res: Response) => {
   }
 
   const productData: productDTO = req.body;
-  const addedProduct = await productServiceInstance.addNewProduct(
-    productData,
-    res
-  );
+  const addedProduct = await productServiceInstance.addNewProduct(productData);
 
   res.status(201).json(addedProduct);
 };
@@ -86,7 +83,17 @@ export const updateProduct = async (req: CustomRequest, res: Response) => {
 
   const productData: productDTO = req.body;
 
-  await productServiceInstance.updateProductById(productId, productData, res);
+  const updatedProduct = await productServiceInstance.updateProductById(
+    productId,
+    productData
+  );
+
+  if (updatedProduct.modifiedCount > 0) {
+    res.status(200).json({ message: "Product updated successfully" });
+  } else {
+    res.status(400);
+    throw new Error("Product not found or no changes were made.");
+  }
 };
 
 export const deleteProduct = async (req: CustomRequest, res: Response) => {
@@ -99,8 +106,7 @@ export const deleteProduct = async (req: CustomRequest, res: Response) => {
   }
 
   const productDeleted = await productServiceInstance.deleteProductById(
-    productId,
-    res
+    productId
   );
   res.status(200).json(productDeleted);
 };

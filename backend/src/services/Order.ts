@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
-import { Response } from "express";
 import { OrderRepository } from "../repositories/Order";
 import { orderDTO } from "../dto/Order";
+import { ErrorService } from "../errors/ErrorService";
 
 @injectable()
 export class OrderService {
@@ -10,27 +10,24 @@ export class OrderService {
   ) {}
 
   async getAllOrders() {
-    const orders = await this.orderRepository.getAllOrders();
-    return orders;
+    return await this.orderRepository.getAllOrders();
   }
 
-  async getOrderById(orderId: string, res: Response) {
+  async getOrderById(orderId: string) {
     const order = await this.orderRepository.getOrderById(orderId);
 
     if (!order) {
-      res.status(404);
-      throw new Error("Order not found.");
+      throw new ErrorService(404, "Order not found.");
     }
-
-    res.status(200).json(order);
+    return order;
   }
 
-  async placeOrder(orderData: orderDTO, res: Response) {
+  async placeOrder(orderData: orderDTO) {
     const newOrder = await this.orderRepository.saveOrder(orderData);
     return newOrder;
   }
 
-  async findOrderByUserId(userId: string, res: Response) {
+  async findOrderByUserId(userId: string) {
     const order = await this.orderRepository.getOrderByUserId(userId);
     return order;
   }

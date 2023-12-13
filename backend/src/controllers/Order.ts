@@ -14,7 +14,7 @@ export const addOrder = async (req: CustomRequest, res: Response) => {
   }
 
   const orderData: orderDTO = req.body;
-  const placedOrder = await orderServiceInstance.placeOrder(orderData, res);
+  const placedOrder = await orderServiceInstance.placeOrder(orderData);
   res.status(201).json(placedOrder);
 };
 
@@ -25,6 +25,6 @@ export const getAllOrders = async (req: CustomRequest, res: Response) => {
 
 export const getOrdersByUserId = async (req: CustomRequest, res: Response) => {
   const userId = req.user._id;
-  const orders = await orderServiceInstance.findOrderByUserId(userId, res);
+  const orders = await orderServiceInstance.findOrderByUserId(userId);
   res.status(200).json(orders);
 };

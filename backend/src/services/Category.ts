@@ -1,7 +1,7 @@
 import { inject, injectable } from "inversify";
-import { Response } from "express";
 import { CategoryRepository } from "../repositories/Category";
 import { categoryDto } from "../dto/Category";
+import { ErrorService } from "../errors/ErrorService";
 
 @injectable()
 export class CategoryService {
@@ -17,12 +17,11 @@ export class CategoryService {
     return await this.categoryRepo.getCategoryById(id);
   }
 
-  async addNewCategory(categoryData: categoryDto, res: Response) {
+  async addNewCategory(categoryData: categoryDto) {
     const isCategoryExist = await this.findCategoryByType(categoryData.type);
 
     if (isCategoryExist) {
-      res.status(400);
-      throw new Error("Category already exists.");
+      throw new ErrorService(400, "Category already exists.");
     }
 
     const newCategory = await this.categoryRepo.createCategory(categoryData);
@@ -38,23 +37,17 @@ export class CategoryService {
     return await this.categoryRepo.getCategoryByType(type);
   }
 
-  async updateCategory(
-    categoryId: string,
-    categoryData: Partial<categoryDto>,
-    res: Response
-  ) {
+  async updateCategory(categoryId: string, categoryData: Partial<categoryDto>) {
     const category = await this.findCategoryById(categoryId);
     if (!category) {
-      res.status(404);
-      throw new Error("Category not found.");
+      throw new ErrorService(404, "Category not found.");
     }
 
     const { type } = categoryData;
     if (type) {
       const isCategoryExist = await this.findCategoryByType(type);
       if (isCategoryExist) {
-        res.status(400);
-        throw new Error("Category is already in exist.");
+        throw new ErrorService(400, "Category type is already exist.");
       }
     }
 
@@ -68,19 +61,14 @@ export class CategoryService {
         imageUrl: category.imageUrl,
       }
     );
-    if (updatedCategory.modifiedCount > 0) {
-      res.status(200).json({ message: "Category updated successfully" });
-    } else {
-      res.status(400);
-      throw new Error("Category not found or no changes were made.");
-    }
+
+    return updatedCategory;
   }
 
-  async deleteCategoryById(categoryId: string, res: Response) {
+  async deleteCategoryById(categoryId: string) {
     const category = await this.categoryRepo.deleteCategoryById(categoryId);
     if (!category) {
-      res.status(404);
-      throw new Error("Category not found");
+      throw new ErrorService(404, "Category not found");
     }
     return { message: "Category deleted successfully" };
   }

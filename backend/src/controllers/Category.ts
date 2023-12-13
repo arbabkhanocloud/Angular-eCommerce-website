@@ -3,7 +3,6 @@ import { categoryServiceInstance } from "../Server";
 import { CustomRequest } from "../types/Types";
 import { validateCategory } from "../validation/Category";
 import { categoryDto } from "../dto/Category";
-
 import mongoose from "mongoose";
 
 export const getAllCategories = async (req: any, res: Response) => {
@@ -19,8 +18,7 @@ export const createCategory = async (req: CustomRequest, res: Response) => {
   }
   const categoryData: categoryDto = req.body;
   const createdCategory = await categoryServiceInstance.addNewCategory(
-    categoryData,
-    res
+    categoryData
   );
 
   res.status(200).json(createdCategory);
@@ -43,14 +41,19 @@ export const updateCategory = async (req: CustomRequest, res: Response) => {
 
   const { type, imageUrl } = req.body;
 
-  await categoryServiceInstance.updateCategory(
+  const updatedCategory = await categoryServiceInstance.updateCategory(
     categoryId,
     {
       type,
       imageUrl,
-    },
-    res
+    }
   );
+  if (updatedCategory.modifiedCount > 0) {
+    res.status(200).json({ message: "Category updated successfully" });
+  } else {
+    res.status(400);
+    throw new Error("Category not found or no changes were made.");
+  }
 };
 
 export const deleteCategory = async (req: CustomRequest, res: Response) => {
@@ -58,12 +61,11 @@ export const deleteCategory = async (req: CustomRequest, res: Response) => {
   const isValidCategoryId = mongoose.Types.ObjectId.isValid(categoryId);
   if (!isValidCategoryId) {
     res.status(400);
-    throw new Error("Invalid user id");
+    throw new Error("Invalid category id.");
   }
 
   const categoryDeleted = await categoryServiceInstance.deleteCategoryById(
-    categoryId,
-    res
+    categoryId
   );
   res.status(200).json(categoryDeleted);
 };

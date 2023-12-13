@@ -5,7 +5,6 @@ import {
   validateUpdateUserById,
   validateUpdateUserProfileById,
 } from "../validation/User";
-import { User } from "../models/User";
 import mongoose from "mongoose";
 import { CustomRequest } from "../types/Types";
 import { userDto } from "../dto/User";
@@ -18,10 +17,7 @@ export const signup = async (req: CustomRequest, res: Response) => {
     res.status(400);
     throw new Error(error.details[0].message);
   }
-  const regiesteredUser = await userServiceInstance.registerNewUser(
-    userData,
-    res
-  );
+  const regiesteredUser = await userServiceInstance.registerNewUser(userData);
   res.status(200).json(regiesteredUser);
 };
 
@@ -38,19 +34,12 @@ export const getUserById = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid user id");
   }
   const user = await userServiceInstance.findUserById(userId);
-  if (!user) {
-    res.status(404);
-    throw new Error("No user found");
-  }
-  res.send(user);
+  res.status(200).send(user);
 };
 
 export const getUserProfile = async (req: CustomRequest, res: Response) => {
   const userId = req.user._id;
-  const userProfile = await userServiceInstance.findUserProfileById(
-    userId,
-    res
-  );
+  const userProfile = await userServiceInstance.findUserById(userId);
   res.status(200).json(userProfile);
 };
 
@@ -66,11 +55,17 @@ export const updateUserProfile = async (req: CustomRequest, res: Response) => {
   }
   const userId = req.user._id;
   const { fullName, username, password } = req.body;
-  await userServiceInstance.updateUserProfileById(
-    userId,
-    { fullName, username, password },
-    res
-  );
+  const updatedUser = await userServiceInstance.updateUserProfileById(userId, {
+    fullName,
+    username,
+    password,
+  });
+  if (updatedUser.modifiedCount > 0) {
+    res.status(200).json({ message: "User Profile updated successfully" });
+  } else {
+    res.status(400);
+    throw new Error("User not found or no changes were made.");
+  }
 };
 
 export const updateUserById = async (req: CustomRequest, res: Response) => {
@@ -88,16 +83,19 @@ export const updateUserById = async (req: CustomRequest, res: Response) => {
   }
 
   const { fullName, username, isAdmin, password } = req.body;
-  await userServiceInstance.updateUserById(
-    userId,
-    {
-      fullName,
-      username,
-      isAdmin,
-      password,
-    },
-    res
-  );
+  const updatedUser = await userServiceInstance.updateUserById(userId, {
+    fullName,
+    username,
+    isAdmin,
+    password,
+  });
+
+  if (updatedUser.modifiedCount > 0) {
+    res.status(200).json({ message: "User Profile updated successfully" });
+  } else {
+    res.status(400);
+    throw new Error("User not found or no changes were made.");
+  }
 };
 
 export const deletUserById = async (req: CustomRequest, res: Response) => {
@@ -108,10 +106,12 @@ export const deletUserById = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid user id");
   }
 
-  await userServiceInstance.findAndDeleteUserById(userId, res);
+  const deletedUser = await userServiceInstance.findAndDeleteUserById(userId);
+  res.status(200).json(deletedUser);
 };
 
 export const login = async (req: CustomRequest, res: Response) => {
   const { username, password } = req.body;
-  await userServiceInstance.userLogin(username, password, res);
+  const user = await userServiceInstance.userLogin(username, password);
+  res.status(200).json(user);
 };

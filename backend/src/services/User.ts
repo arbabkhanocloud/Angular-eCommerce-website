@@ -4,19 +4,19 @@ import bcrypt from "bcrypt";
 import { userDto } from "../dto/User";
 import { generateToken } from "../utils/GenerateToken";
 import { UserRepository } from "../repositories/User";
+import { ErrorService } from "../errors/ErrorService";
 
 @injectable()
 export class UserService {
   constructor(@inject(UserRepository) private userRepository: UserRepository) {}
 
-  async registerNewUser(userData: userDto, res: Response) {
+  async registerNewUser(userData: userDto) {
     const userExist = await this.userRepository.getUserByUserName(
       userData.username
     );
 
     if (userExist) {
-      res.status(400);
-      throw new Error("User already exists.");
+      throw new ErrorService(400, "User already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -37,44 +37,35 @@ export class UserService {
     return await this.userRepository.getAllUsers();
   }
 
-  async findUserById(id: string) {
-    return await this.userRepository.getUserById(id);
-  }
-
   async findUserByUserName(username: string) {
     return await this.userRepository.getUserByUserName(username);
   }
 
-  async findUserProfileById(userId: string, res: Response) {
-    const user = await this.findUserById(userId);
+  async findUserById(userId: string) {
+    const user = await this.userRepository.getUserById(userId);
     if (!user) {
-      res.status(400);
-      throw new Error("User not found.");
+      throw new ErrorService(404, "User not found.");
     }
     return {
-      fullname: user.fullName,
+      _id: user._id,
+      fullName: user.fullName,
       username: user.username,
       isAdmin: user.isAdmin,
+      password: user.password,
     };
   }
 
-  async updateUserProfileById(
-    userId: string,
-    updatedData: Partial<userDto>,
-    res: Response
-  ) {
+  async updateUserProfileById(userId: string, updatedData: Partial<userDto>) {
     const user = await this.findUserById(userId);
     if (!user) {
-      res.status(404);
-      throw new Error("User not found.");
+      throw new ErrorService(404, "User not found.");
     }
 
     const { username } = updatedData;
     if (username) {
       const userExist = await this.findUserByUserName(username);
       if (userExist) {
-        res.status(400);
-        throw new Error("Username is already in use.");
+        throw new ErrorService(400, "Username is already in use.");
       }
     }
 
@@ -89,31 +80,21 @@ export class UserService {
       username: user.username,
       password: user.password,
     });
-    if (updatedUser.modifiedCount > 0) {
-      res.status(200).json({ message: "User Profile updated successfully" });
-    } else {
-      res.status(400);
-      throw new Error("User not found or no changes were made.");
-    }
+
+    return updatedUser;
   }
 
-  async updateUserById(
-    userId: string,
-    updatedData: Partial<userDto>,
-    res: Response
-  ) {
+  async updateUserById(userId: string, updatedData: Partial<userDto>) {
     const user = await this.findUserById(userId);
     if (!user) {
-      res.status(404);
-      throw new Error("User not found.");
+      throw new ErrorService(404, "User not found.");
     }
 
     const { username } = updatedData;
     if (username) {
       const userExist = await this.findUserByUserName(username);
       if (userExist) {
-        res.status(400);
-        throw new Error("Username is already in use.");
+        throw new ErrorService(400, "Username is already in use.");
       }
     }
 
@@ -133,36 +114,30 @@ export class UserService {
       isAdmin: user.isAdmin,
     });
 
-    if (updatedUser.modifiedCount > 0) {
-      res.status(200).json({ message: "User Profile updated successfully" });
-    } else {
-      res.status(400);
-      throw new Error("User not found or no changes were made.");
-    }
+    return updatedUser;
   }
 
-  async findAndDeleteUserById(id: any, res: Response) {
+  async findAndDeleteUserById(id: any) {
     const user = await this.userRepository.deleteUserById(id);
     if (!user) {
-      res.status(404);
-      throw new Error("User not found");
+      throw new ErrorService(404, "User not found.");
     }
-    res.status(200).json({ message: "User deleted successfully" });
+    return { message: "User deleted successfully" };
   }
 
-  async userLogin(username: string, password: string, res: Response) {
+  async userLogin(username: string, password: string) {
     const user = await this.userRepository.getUserByCredentials(username);
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = generateToken(user._id);
-      res.status(200).json({
+      return {
         _id: user._id,
         fullName: user.fullName,
         username: user.username,
         isAdmin: user.isAdmin,
         token: token,
-      });
+      };
     } else {
-      res.status(401).json({ message: "Invalid username or password" });
+      throw new ErrorService(401, "Invalid username or password");
     }
   }
 }
