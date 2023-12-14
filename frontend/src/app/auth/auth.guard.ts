@@ -15,6 +15,9 @@ export const AuthGuard: CanActivateFn = (
   const isUserAdmin = inject(AuthService).isAdmin$.getValue();
   const categoryType = route.paramMap.get('categoryType');
 
+  if (state.url === '/cart' && (!isUserAuthenticated || !isUserAdmin)) {
+    return inject(Router).navigate(['']);
+  }
   if (state.url.includes('cart') && (!isUserAuthenticated || !isUserAdmin)) {
     return inject(Router).navigate(['/login']);
   }

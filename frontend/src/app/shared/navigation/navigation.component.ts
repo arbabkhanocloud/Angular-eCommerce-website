@@ -4,7 +4,7 @@ import { selectCartItems } from 'src/app/cart/cart.selectors';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
-import {  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -12,19 +12,21 @@ import {  Observable } from 'rxjs';
   styleUrls: ['./navigation.component.scss'],
 })
 export class NavigationComponent implements OnInit {
-  isUserAuthenticated$!:Observable<boolean>;
-  isUserAuthenticatedAdmin$!:Observable<boolean>;
+  isUserAuthenticated$!: Observable<boolean>;
+  isUserAuthenticatedAdmin$!: Observable<boolean>;
   cartItemCount!: number;
   showSearchBar = true;
+  showUserDropdown = false;
+  showAdminDropdown = false;
   constructor(
     private readonly router: Router,
     private readonly store: Store,
-    private readonly authService:AuthService
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    this.isUserAuthenticated$=this.authService.isUserAuthenticated();
-    this.isUserAuthenticatedAdmin$=this.authService.isUserAdmin();
+    this.isUserAuthenticated$ = this.authService.isUserAuthenticated();
+    this.isUserAuthenticatedAdmin$ = this.authService.isUserAdmin();
 
     this.router.events
       .pipe(
@@ -48,13 +50,22 @@ export class NavigationComponent implements OnInit {
         0,
       );
     });
+  }
 
+  toggleUserDropdown() {
+    this.showUserDropdown = !this.showUserDropdown;
+    this.showAdminDropdown = false;
+  }
+
+  toggleAdminDropdown() {
+    this.showAdminDropdown = !this.showAdminDropdown;
+    this.showUserDropdown = false;
   }
 
   navigateTo(route: string) {
     this.router.navigate([`${route}`]);
   }
-  logout(){
+  logout() {
     this.authService.logout();
   }
 }

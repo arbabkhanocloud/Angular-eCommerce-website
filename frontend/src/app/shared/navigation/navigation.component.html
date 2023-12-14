@@ -5,8 +5,14 @@
   </div>
 
   <div class="right-container">
-    <div *ngIf="(isUserAuthenticatedAdmin$|async) as userAdmin">
+    <div *ngIf="(isUserAuthenticatedAdmin$|async) as userAdmin" class="user-status" tabindex="0"
+      (click)="toggleAdminDropdown()" (keyup.enter)="toggleAdminDropdown()">
       <mat-icon>supervisor_account</mat-icon>
+      <div *ngIf="showAdminDropdown" class="dropdown-content">
+        <a>Users</a>
+        <a>Products</a>
+        <a>Orders</a>
+      </div>
     </div>
     <div class="cart-icon" (click)="navigateTo('cart')" (keyup.enter)="navigateTo('cart')" tabindex="0">
       <mat-icon>shopping_cart</mat-icon>
@@ -16,9 +22,13 @@
       (click)="navigateTo('login') " (keyup.enter)=" navigateTo('login') " tabindex="0">
       <span>Login</span>
     </div>
-    <div *ngIf="(isUserAuthenticated$ | async) as isAuthenticated" class="user-status" (click)="logout()"
-      (keyup.enter)="logout()" tabindex="0">
+    <div *ngIf="(isUserAuthenticated$ | async) as isAuthenticated" class="user-status" (click)="toggleUserDropdown()"
+      (keyup.enter)="toggleAdminDropdown()" tabindex="0">
       <mat-icon>supervised_user_circle</mat-icon>
+      <div *ngIf="showUserDropdown" class="dropdown-content">
+        <a (keyup.enter)="logout()" (click)="logout()" tabindex="0">Logout</a>
+        <a>User Profile</a>
+      </div>
     </div>
 
   </div>
