@@ -7,6 +7,7 @@ import { ProductDetailsComponent } from './product/product-details/product-detai
 import { CategoriesComponent } from './categories/categories.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+    canActivate: [],
   },
   {
     path: 'login',
