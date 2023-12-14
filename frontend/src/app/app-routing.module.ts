@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
-    canActivate: [],
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
@@ -28,7 +28,11 @@ const routes: Routes = [
     path: 'checkout',
     component: CheckoutComponent,
   },
-  { path: ':categoryType', component: ProductListingComponent },
+  {
+    path: ':categoryType',
+    component: ProductListingComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: ':categoryType/:productId',
     component: ProductDetailsComponent,
