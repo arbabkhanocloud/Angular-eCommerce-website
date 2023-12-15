@@ -1,0 +1,78 @@
+<div *ngIf="userProfileErrorMessage" class="error-message">
+    {{ userProfileErrorMessage }}
+</div>
+
+<div *ngIf="isLoading" class="loading-spinner">
+    Loading...
+</div>
+
+<div *ngIf="!isLoading && !userProfileErrorMessage" class="user-profile">
+
+    <div class="update-user-info">
+        <h2>Update User Info?</h2>
+        <form (ngSubmit)="updateUserInfo()" #updateForm="ngForm">
+            <label for="fullname">New Full Name:</label>
+            <input type="text" id="fullname" name="fullname" [(ngModel)]="fullname" required #newFullname="ngModel">
+            <div *ngIf="newFullname.invalid && (newFullname.dirty || newFullname.touched)" class="error-message">
+                Fullname is required.
+            </div>
+
+            <label for="newUsername">New User Name:</label>
+            <input type="text" id="newUsername" name="newUsername" [(ngModel)]="username" required
+                #newUsername="ngModel">
+            <div *ngIf="newUsername.invalid && (newUsername.dirty || newUsername.touched)" class="error-message">
+                Username is required.
+            </div>
+
+            <label for="newPassword">New Password:</label>
+            <input type="password" id="newPassword" name="newPassword" [(ngModel)]="password" required minlength="8"
+                #newPasswordInput="ngModel">
+            <div *ngIf="
+            newPasswordInput.invalid &&
+            (newPasswordInput.dirty || newPasswordInput.touched)
+          " class="error-message">
+                <div *ngIf="newPasswordInput.errors?.['required']">
+                    Password is required.
+                </div>
+                <div *ngIf="newPasswordInput.errors?.['minlength']">
+                    Password must be at least 8 characters long.
+                </div>
+            </div>
+
+            <button type="submit" [disabled]=" updateForm.invalid" (click)="updateUserInfo()">Update Info</button>
+        </form>
+
+        <div *ngIf="updateSuccessMessage" class="success-message">
+            {{ updateSuccessMessage }}
+        </div>
+        <div *ngIf="updateErrorMessage" class="error-message">
+            {{ updateErrorMessage }}
+        </div>
+    </div>
+    <div>
+        <h2>User Profile</h2>
+        <div class="user-info">
+            <p><strong>Name:</strong> {{ userName }}</p>
+            <p><strong>Email:</strong> {{ userEmail }}</p>
+        </div>
+        <div class="order-history">
+            <h3>Order History</h3>
+
+            <div *ngIf="orderErrorMessage" class="error-message">
+                {{ orderErrorMessage }}
+            </div>
+
+            <div *ngIf="!orderErrorMessage && orders.length === 0">
+                No orders found.
+            </div>
+
+            <div *ngIf="!orderErrorMessage && orders.length > 0">
+                <div *ngFor="let order of orders">
+                    <p><strong>Order ID:</strong> {{ order._id }}</p>
+                    <p><strong>Total Items:</strong> {{ order.totalQuantity }}</p>
+                    <p><strong>Total Amount:</strong> {{ order.totalPrice | currency }}</p>
+                </div>
+            </div>
+        </div>
+        <div>
+        </div>

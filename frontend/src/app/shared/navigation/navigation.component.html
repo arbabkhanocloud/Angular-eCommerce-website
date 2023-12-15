@@ -27,7 +27,7 @@
       <mat-icon>supervised_user_circle</mat-icon>
       <div *ngIf="showUserDropdown" class="dropdown-content">
         <a (keyup.enter)="logout()" (click)="logout()" tabindex="0">Logout</a>
-        <a>User Profile</a>
+        <a (keyup.enter)="userProfile()" (click)="userProfile()" tabindex="0">User Profile</a>
       </div>
     </div>
 

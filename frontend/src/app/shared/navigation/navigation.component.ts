@@ -36,7 +36,13 @@ export class NavigationComponent implements OnInit {
       )
       .subscribe((event: NavigationEnd) => {
         const currentRoute = event.url;
-        if (currentRoute === '/cart' || currentRoute === '/checkout') {
+        if (
+          currentRoute === '/cart' ||
+          currentRoute === '/checkout' ||
+          currentRoute === '/user-profile' ||
+          currentRoute === '/login' ||
+          currentRoute === '/signup'
+        ) {
           this.showSearchBar = false;
         } else {
           this.showSearchBar = true;
@@ -65,6 +71,11 @@ export class NavigationComponent implements OnInit {
   navigateTo(route: string) {
     this.router.navigate([`${route}`]);
   }
+
+  userProfile() {
+    this.router.navigate(['user-profile']);
+  }
+
   logout() {
     this.authService.logout();
   }

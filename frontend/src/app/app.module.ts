@@ -18,6 +18,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
     CategoriesComponent,
     CheckoutComponent,
     SignupComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,

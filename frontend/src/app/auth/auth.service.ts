@@ -41,6 +41,24 @@ export class AuthService {
       );
   }
 
+  signup(fullname: string, email: string, password: string) {
+    console.log('object');
+    return this.httpClient
+      .post(`http://localhost:8500/api/users/signup`, {
+        fullname: fullname,
+        username: email,
+        password: password,
+      })
+      .pipe(
+        switchMap((user: any) => {
+          this.isAuthenticated$.next(true);
+          this.isAdmin$.next(user.isAdmin);
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          return of(user);
+        }),
+      );
+  }
+
   logout() {
     localStorage.removeItem('currentUser');
     window.location.reload();
