@@ -20,7 +20,11 @@ const port = process.env.PORT;
 
 app.use(
   cors({
-    origin: ["http://localhost:4200"],
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+    allowedHeaders: "Content-Type, Authorization",
   })
 );
 app.use(express.json());
@@ -31,7 +35,7 @@ export const orderServiceInstance = container.resolve(OrderService);
 export const productServiceInstance = container.resolve(ProductService);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Serve is up and Running...");
+  res.status(200).send("Server is up and Running...");
 });
 app.use("/api/users", User);
 app.use("/api/category", Category);
