@@ -1,3 +1,5 @@
+import { ErrorService } from "../errors/ErrorService";
+
 import type {
   ErrorRequestHandler,
   Request,
@@ -12,7 +14,15 @@ const errorHanlder: ErrorRequestHandler = (
   nex: NextFunction
 ) => {
   console.error(err);
-  res.json({ message: err.message });
+
+  if (err instanceof ErrorService) {
+    console.log("Service Error object");
+    res.status(err.statusCode || 500).json({ message: err.message });
+  } else if (err instanceof Error) {
+    res.json({ message: err.message });
+  } else {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 export default errorHanlder;

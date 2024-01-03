@@ -1,41 +1,26 @@
 import "express-async-errors";
 import { CustomRequest } from "../types/Types";
 import { Response } from "express";
-import { validateProduct } from "../validation/Product";
-import { Proudct } from "../models/Product";
+import { validateProduct, validateUpdateProduct } from "../validation/Product";
 import mongoose from "mongoose";
-import { validateUpdateProduct } from "../validation/Product";
+import { productDTO } from "../dto/Product";
+import { productServiceInstance } from "../Server";
 
 export const addProduct = async (req: CustomRequest, res: Response) => {
-  const { categoryId, name, imageUrl, price, description } = req.body;
-
   const { error } = validateProduct(req.body);
-
   if (error) {
     res.status(400);
     throw new Error(error.details[0].message);
   }
 
-  const isProductExist = await Proudct.findOne({ name });
-  if (isProductExist) {
-    res.status(400);
-    throw new Error("Product Already Exist.");
-  }
+  const productData: productDTO = req.body;
+  const addedProduct = await productServiceInstance.addNewProduct(productData);
 
-  const product = new Proudct({
-    categoryId,
-    name,
-    imageUrl,
-    price,
-    description,
-  });
-
-  const addedProduct = await product.save();
   res.status(201).json(addedProduct);
 };
 
 export const getAllProuducts = async (req: CustomRequest, res: Response) => {
-  const products = await Proudct.find({});
+  const products = await productServiceInstance.findAllProducts();
   res.status(200).json(products);
 };
 
@@ -48,7 +33,7 @@ export const getProductById = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid product id.");
   }
 
-  const product = await Proudct.findById(productId);
+  const product = await productServiceInstance.findProductById(productId);
 
   if (!product) {
     res.status(404);
@@ -70,19 +55,13 @@ export const getProductsByCategoryId = async (
     throw new Error("Invalid category id.");
   }
 
-  const productsByCategoryId = await Proudct.find({
-    categoryId: categoryId,
-  });
+  const productsByCategoryId =
+    await productServiceInstance.findProductsByCategoryId(categoryId);
 
   res.status(200).json(productsByCategoryId);
 };
 
 export const updateProduct = async (req: CustomRequest, res: Response) => {
-  if (Object.keys(req.body).length === 0) {
-    res.status(400);
-    throw new Error("Empty request body.");
-  }
-
   const productId = req.params.id;
   const isValidCategoryId = mongoose.Types.ObjectId.isValid(productId);
 
@@ -90,11 +69,10 @@ export const updateProduct = async (req: CustomRequest, res: Response) => {
     res.status(400);
     throw new Error("Invalid product id.");
   }
-  const product = await Proudct.findById(productId);
 
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found.");
+  if (Object.keys(req.body).length === 0) {
+    res.status(400);
+    throw new Error("Empty request body.");
   }
 
   const { error } = validateUpdateProduct(req.body);
@@ -103,16 +81,19 @@ export const updateProduct = async (req: CustomRequest, res: Response) => {
     throw new Error(error.details[0].message);
   }
 
-  const { categoryId, name, imageUrl, price, description } = req.body;
+  const productData: productDTO = req.body;
 
-  product.categoryId = categoryId || product.categoryId;
-  product.name = name || product.name;
-  product.imageUrl = imageUrl || product.imageUrl;
-  product.price = price || product.price;
-  product.description = description || product.description;
+  const updatedProduct = await productServiceInstance.updateProductById(
+    productId,
+    productData
+  );
 
-  const updatedProduct = await product.save();
-  res.status(200).json(updatedProduct);
+  if (updatedProduct.modifiedCount > 0) {
+    res.status(200).json({ message: "Product updated successfully" });
+  } else {
+    res.status(400);
+    throw new Error("Product not found or no changes were made.");
+  }
 };
 
 export const deleteProduct = async (req: CustomRequest, res: Response) => {
@@ -124,13 +105,8 @@ export const deleteProduct = async (req: CustomRequest, res: Response) => {
     throw new Error("Invalid product id.");
   }
 
-  const product = await Proudct.findById(productId);
-
-  if (!product) {
-    res.status(404);
-    throw new Error("Product not found.");
-  }
-
-  const one = await product.deleteOne();
-  res.status(200).send("Product deleted succeffuly");
+  const productDeleted = await productServiceInstance.deleteProductById(
+    productId
+  );
+  res.status(200).json(productDeleted);
 };

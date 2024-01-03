@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express, { Request, Response, Application, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -7,6 +8,11 @@ import Category from "./routes/Category";
 import Product from "./routes/Product";
 import Order from "./routes/Order";
 import { databaseConnection } from "./config/DatabaseConnection";
+import container from "./container/Inversify.container";
+import { UserService } from "./services/User";
+import { CategoryService } from "./services/Category";
+import { OrderService } from "./services/Order";
+import { ProductService } from "./services/Product";
 
 dotenv.config();
 const app: Application = express();
@@ -14,13 +20,22 @@ const port = process.env.PORT;
 
 app.use(
   cors({
-    origin: ["http://localhost:4200"],
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+    allowedHeaders: "Content-Type, Authorization",
   })
 );
 app.use(express.json());
 
+export const userServiceInstance = container.resolve(UserService);
+export const categoryServiceInstance = container.resolve(CategoryService);
+export const orderServiceInstance = container.resolve(OrderService);
+export const productServiceInstance = container.resolve(ProductService);
+
 app.get("/", (req: Request, res: Response) => {
-  res.send("Serve is up and Running...");
+  res.status(200).send("Server is up and Running...");
 });
 app.use("/api/users", User);
 app.use("/api/category", Category);

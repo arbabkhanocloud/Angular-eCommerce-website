@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  addCategory,
+  createCategory,
   getAllCategories,
   updateCategory,
   deleteCategory,
@@ -15,7 +15,7 @@ const router = express.Router();
 router
   .route("/")
   .get(getAllCategories)
-  .post(authenticateUser, authenticateUserAsAdmin, addCategory);
+  .post(authenticateUser, authenticateUserAsAdmin, createCategory);
 router
   .route("/:id")
   .put(authenticateUser, authenticateUserAsAdmin, updateCategory)
