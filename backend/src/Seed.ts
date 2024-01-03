@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import dotenv from "dotenv";
 import { Category } from "./models/Category";
-import { Proudct } from "./models/Product";
+import { Product } from "./models/Product";
 import { User } from "./models/User";
 import { Order } from "./models/Order";
 import { databaseConnection } from "./config/DatabaseConnection";
@@ -15,7 +15,7 @@ const seedData = async () => {
   await databaseConnection();
 
   await Category.deleteMany();
-  await Proudct.deleteMany();
+  await Product.deleteMany();
   await User.deleteMany();
   await Order.deleteMany();
 
@@ -31,7 +31,7 @@ const seedData = async () => {
   const addedProducts: any[] = [];
   addedCategories.forEach(async (category) => {
     for (let i = 0; i < 50; i++) {
-      const product = await Proudct.create({
+      const product = await Product.create({
         categoryId: category._id,
         name: faker.commerce.productName(),
         price: 5,
